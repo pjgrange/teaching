@@ -1,0 +1,7 @@
+\contentsline {section}{\numberline {1}Navier--Stokes equations for incompressible fluids}{1}
+\contentsline {section}{\numberline {2}Solution of the Navier--Stokes equations for the Poiseuille flow}{2}
+\contentsline {subsection}{\numberline {2.1}Form of the velocity field}{2}
+\contentsline {subsection}{\numberline {2.2}Incompressibility}{2}
+\contentsline {subsection}{\numberline {2.3}Explicit form of each term in the Navier--Stokes equations}{2}
+\contentsline {subsection}{\numberline {2.4}Solution of the equations}{3}
+\contentsline {section}{\numberline {3}Application: the Poiseuille flow as a viscosimeter}{5}

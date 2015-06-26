@@ -1,0 +1,425 @@
+%\documentclass[12pt]{article}
+%\documentclass[a4paper, 12pt]{scrartcl}
+%\voffset=-0.9in
+%\hoffset=-0.6in
+\documentclass[DIV=12]{article}
+\setlength{\textheight}{9.1in}
+\setlength{\textwidth}{7in} 
+\usepackage[margin=1.1in]{geometry}
+%\usepackage[justification=justified,singlelinecheck=off]{caption}
+
+
+%\cofoot{\footnotesize{\rm{Pascal Grange (August 2013)}} {\rm{\ttfamily{ pascal.grange@polytechnique.org}}}}
+
+
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+  \oldbibliography{#1}%
+  \setlength{\itemsep}{-1pt}%
+{\small
+\bibliography{bibfile}}
+}
+
+
+\usepackage[dvips]{color}
+\bibliographystyle{plain}
+
+\usepackage{graphicx}
+%\usepackage{pdfpages}
+%\usepackage{multicol}
+%\usepackage{pstricks,pst-grad}
+%\usepackage{epsfig}
+\usepackage{amsmath,esint,amssymb}
+
+%\usepackage{subfig}
+%\usepackage{tikz}
+%\usepackage{verbatim}
+\usepackage{amsmath}
+
+%\usepackage{array}
+%\pagestyle{scrheadings}
+
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+\newcommand{\eBase}{(\vec{e_1}, \vec{e_2},\vec{e_3})}
+\newcommand{\eBasePrime}{\left(\vec{e'_1}, \vec{e'_2},\vec{e'_3}\right)}
+\newcommand{\maxX}{12}
+\newcommand{\maxY}{12}
+\newcommand{\vol}{\mathcal{V}}
+\newcommand{\surf}{{\mathcal{S}}}
+\newcommand{\sExt}{{{\mathcal{S}}\rightarrow{\mathrm{ext}}}}
+\newcommand{\intVol}{\iiint}
+\newcommand{\intSurf}{\oiint}
+\newcommand{\fVol}{\vec{f^{vol}}}
+\newcommand{\kg}{\mathrm{kg}}
+\newcommand{\m}{\mathrm{m}}
+\newcommand{\cm}{\mathrm{cm}}
+\newcommand{\s}{\mathrm{s}}
+\newcommand{\Pa}{\mathrm{Pa}}
+\newcommand{\GPa}{\mathrm{GPa}}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\whatIf}{\operatornamewithlimits{=}}
+
+
+
+\begin{document}
+
+\title{
+\noindent\hrulefill
+\begin{flushleft}
+{\Large \bf{XJTLU, MTH308 (Cartesian tensors and mathematical models of [elastic] solids and viscous fluids), Semester 2, 2015\\
+\vspace{8mm}
+\hrule
+\vspace{6mm}
+ Lecture 7, 28th April 2015: Newtonian fluids, and the Navier--Stokes equations for incompressible fluids}}
+\vspace{8mm}
+\hrule
+\vspace{6mm}
+{\Large{Pascal Grange\\
+Department of mathematical sciences\\
+{\ttfamily{pascal.grange@xjtlu.edu.cn}}\\
+}}
+\noindent\hrulefill
+\end{flushleft}}
+\date{}
+\author{}
+\maketitle
+%\noindent\hrulefill
+\vspace{-9mm}
+ 
+{\bf{Keywords}}. Description of fluids, conservation of mass, Material laws, Newtonian fluids.\\
+\vspace{3mm}
+
+\tableofcontents
+
+\vspace{8mm}
+
+
+\section{Summary of the module so far}
+
+ We have developed a general framework to study  continuous media.\\
+ $(i)$ Continuum assumption: distances are large in scale of the size of molecules.\\
+ $(ii)$ Kinematics: Lagrangian description based on trajectories $\vec{\Phi}( \vec{X}, t )$, Eulerian description based on a velocity field $\vec{v}(\vec{x},t)$. The 
+ two descriptions are related by $\vec{v}( \vec{\Phi}(\vec{X},t),t) = \frac{\partial}{\partial t} \vec{\Phi}(\vec{X},t)$.\\
+ $(iii)$ bulk forces and surface forces. Cauchy's assumption: consider a sample of continuous medium
+ in a volume $\mathcal{V}$, whose boundary $\surf$ is oriented towards the exterior of $\mathcal{V}$, this
+ sample feels the action of the rest of the continuous medium through the force $\intSurf \sigma_{ij}( \vec{x}) n_j( \vec{x}) dS$,
+ where $\sigma$ is the stress tensor and $\vec{n}(\vec{x}) = n_j(\vec{x}) \vec{e_j}$ is the normal vector to $\surf$ at point $\vec{x}$, and
+ $\eBase$ is an orthonormal base.\\
+
+We specialized this framework for the study of elastic solids (in the regime of small deformations) and we have started doing it for 
+ fluids.\\
+
+$\bullet$ {\bf{Elastic solids.}}\\
+ $(i)$ We study equilibrium states. Thanks to Stoke's theorem the balance laws can be written as follows for all $i$ in $[1..3]$:\\
+ \begin{equation}
+\vec{0} = \fVol + \frac{\partial \sigma_{ij}}{\partial x_j} \vec{e_i}
+ \end{equation}
+ $(ii)$ If forces are small enough, deformations are small and reversible. Computations are done at first order in the 
+ deformation field $\vec{u} = \Phi( \vec{X}, t ) - \vec{X}$.\\
+ $(iii)$ The stress tensor in terms of the linearized strain tensor $\epsilon$ by Hooke's law,
+ expressed using two parameters, Young's modulus $E$ (order of magnitude: a few hundreds of gigapascals for steel, about 10 gigapascals for wood, about $0.1$ gigapascal for rubber),
+ and Poisson's ratio $\nu$ (a positive number which can be shown to be smaller than $0.5$):\\
+ \begin{equation}
+ \epsilon_{ij} = \frac{1+\nu}{E}\sigma_{ij} -\frac{\nu}{E}(\Tr\sigma)\delta_{ij}\;\;\;\;\; \epsilon_{ij} = \frac{1}{2}\left( \frac{\partial u_i}{\partial x_j}+\frac{\partial u_j}{\partial x_i} \right) .
+\end{equation}
+
+$\bullet$ {\bf{Fluids.}}\\
+ $(i)$ We study flows, deformations are large, hence we need to include the acceleration terms in the equations of motion:\\
+ \begin{equation}
+\rho\left( \frac{\partial \vec{v}}{\partial t} + ( \vec{v}.\vec{\nabla}) \vec{v} \right)= \fVol + \frac{\partial \sigma_{ij}}{\partial x_j} \vec{e_i}.
+ \label{eomFluids}
+ \end{equation}
+$(ii)$ We need a {\emph{material law}} (analogous to Hooke's law) to express the stress tensor $\sigma$ in terms of the 
+ other parameters of the problem.\\
+
+
+\section{Reminders on fluids}
+ Fluids are continuous media that can undergo large deformation
+ without losing their continuity property: for example a volume of water can be 
+transferred between two containers of different shapes, and it will still be
+ a single volume of water (provided the pressure and temperature conditions are sufficiently
+ similar in the two containers), whereas for elastic solids the identity 
+ of the material can be modified even by relatively small deformation (for a bar of steel,
+ the linear regime of elasticity is only valid for $\delta L /L \simeq 5.10^{-3}$, 
+ and breakage, i.e. loss of continuity, can occur if $\delta L/L$ reaches a few percent).\\
+
+This will have several consequences for us:\\
+1. We will need a description of speed and position that easily accommodates $\vec{\Phi}(\vec{X}, t ) = \vec{X} + \vec{u}( \vec{X}, t )$
+where $|| \vec{u }||$ is not necesseraly small in scale of $||\vec{X}||$; this description is called the Euler description;\\
+2. As we will study flows, not only hydrostatics, we will need to add an acceleration term to the equations of motion.\\   
+
+
+\subsection{The Euler description of fluids}
+
+The Euler velocity field is a vector field (it associates 
+ a vector to every point in space, at every time), denoted by $\vec{v}( \vec{x}, t )$.
+Its value is the speed of the fluid particle that is at point $\vec{x}$ at time $t$. The relation to 
+ the Lagrange description is the following: the particle that is at point $\vec{x}$ at time $t$
+ was at some point $\vec{X}$ at time $0$, so for this particle one has $\vec{x} = \vec{\Phi}( \vec{x}, t  )$.
+ its speed at time $t$ is just the derivative of the position $\vec{\Phi}( \vec{x}, t  )$ with respect to time, hence
+ one can compute the Euler velocity field in terms of the Lagrange flow function $\vec{\Phi}$ as follows:
+\[
+\boxed{
+\vec{v}( \vec{\Phi}(\vec{X}, t),t) = \frac{\partial}{\partial t}\vec{\Phi}(\vec{X}, t ).
+}
+\label{equivalence}
+\]
+In the case of the flow of a river, or inside a pipe, we will write the equations
+of motion in terms of the Euler velocity field $\vec{v}$ and its derivative, 
+ as it is more practical to measure the velocity of the fluid that is passing 
+ in front of the observer (at point $\vec{x}$) than to ask oneself where each particle was
+ at time $0$.\\
+
+
+{\bf{Remark ('What is the Euler description for elastic solids ?').}} In the case of elastic solids
+ we consider small deformations. We computed all the effects at the lowest non-zero orders
+ in the deformation (and their derivatives) and only used the Lagrange description. Let us see 
+ what the relation between the two descriptions becomes for small deformation:\\
+\begin{equation}
+\vec{\Phi}(\vec{X},t) = \vec{X} + \vec{u}(\vec{X},t),
+\end{equation}
+ hence the relation between Euler and Lagrange descriptions becomes
+\begin{equation}
+\vec{v}(  \vec{X} + \vec{u}(\vec{X},t) ,t) =  \frac{\partial}{\partial t}\vec{u}(\vec{X},t),
+\end{equation}
+ from which we see that the velocity is of order one in $u$, hence if we are working at 
+lowest non-zero order in $u$ (and its derivatives), we can replace the argument  $\vec{X} + \vec{u}$ by $u$,
+ and the Eulerian field is just the time derivative of the Lagrange flow, expressed at the same point:
+\begin{equation}
+\vec{v}(  \vec{X},t) =  \frac{\partial}{\partial t}\vec{u}(\vec{X},t) + o(\vec{u}),
+\label{solidCase}
+\end{equation}
+ hence the Lagrange and Euler descriptions are 'trivially' equivalent for small deformations.\\
+
+The Euler description will be used to write the equation 
+ of motions for fluids. However, the Lagrange viewpoint (in which one follows the 
+ same particles of fluids along their trajectory) 
+ can be useful when establishing  the equations, as we are going 
+ to see in the next two sections.
+
+\subsection{Conservation of mass ("the continuity equation")}
+
+Consider the fluid enclosed in volume $\mathcal{V}$ at time $t$. We can write 
+ its mass $M$ as 
+\begin{equation}
+M = \iiint_{\mathcal{V}} \rho( \vec{x}, t ) dV.
+\end{equation}
+ where $\rho$ is the density of the fluid, which {\emph{a priori}} depends on both
+ space and time. If we consider the same particles of fluid at time $t+\epsilon$ (for some 
+ small time $\epsilon$), its mass will still be $M$ by conservation of matter,
+ but its mathematical expression (including terms of order up to one in $\epsilon$) will consist of two terms:
+ one is the volume integral of the density $\rho(\vec{x}, t+\epsilon$) over volume $V$,
+ and the other one is the surface integral corresponding to the mass particles of fluids
+ that went through the surface between time $t$ and time $t+\epsilon$ (if a particle goes through the
+ boundary $\mathcal{S}$ at point $\vec{x}$, with the outgoing unit normal vector $\vec{n}( \vec{x})$ at this point, 
+ the scalar product $\vec{v}(\vec{x}, t).\vec{n}(\vec{x})$ is positive if the particle is leaving the volume $\mathcal{V}$, and we must 
+ add its mass $\vec{v}(\vec{x}, t).\vec{n}(\vec{x}) \epsilon dS$ to find $M$; if the dot-product is negative, the 
+  term $\vec{v}(\vec{x}, t).\vec{n}(\vec{x}) \epsilon dS$ is negative and equals the opposite  mass of a fluid particle that was not in volume
+ $\mathcal{V}$ at time $t$ but came in between $t$ and $t+\epsilon$). Hence we write the new expression of $M$ at time $t+\epsilon$ as 
+\[
+\begin{array}{lll}
+M &= & \iiint_{\mathcal{V}} \rho( \vec{x}, t+\epsilon ) dV + \oiint_\sExt \rho (\vec{x}, t)\vec{v}(\vec{x}, t).\vec{n}(\vec{x}) \epsilon dS + o(\epsilon)\\
+    &  = & \iiint_{\mathcal{V}} \rho( \vec{x}, t) dV + \iiint_{\mathcal{V}} \frac{\partial\rho}{\partial t}( \vec{x}, t) \epsilon dV +
+                 \epsilon\iiint_{\mathcal{V}}\frac{\partial (\rho\vec{v})}{\partial x_j}(\vec{x},t) dV + o(\epsilon)\\
+   & = & M +  \epsilon\left( \iiint_{\mathcal{V}}\left( \frac{\partial\rho}{\partial t}( \vec{x}, t)+ \frac{\partial (\rho\vec{v})}{\partial x_j}(\vec{x},t)\right) dV\right) + o(\epsilon)
+ \end{array}
+\label{massAfter}
+\]
+where we used Stoke's theorem in the second equality. We can write the following equality, which expresses that the derivative of the 
+ mass $m$ with respect to $\epsilon$ is zero:  
+\begin{equation}
+\iiint_{\mathcal{V}}\left( \frac{\partial\rho}{\partial t}( \vec{x}, t)+ \frac{\partial (\rho\vec{v})}{\partial x_j}(\vec{x},t)\right) dV = 0.
+\label{massConsGlobal}
+\end{equation}
+ Since Eq. \ref{massConsGlobal} holds for any volume
+ $\mathcal{V}$, it must hold locally (at scales where the continuous description holds), hence
+ the conservation of mass is express as the following PDE in the density and velocity fields:
+\begin{equation}
+\boxed{
+\frac{\partial\rho}{\partial t}( \vec{x}, t)+ \frac{\partial (\rho v_j)}{\partial x_j}( \vec{x},t) = 0.}
+\label{massCons}
+\end{equation}
+ This equation is sometimes called the continuity equation (but the mathematical assumptions
+ on functions are stronger than continuity, as we assume that derivatives exist; in this context,
+ {\emph{continuity}} refers to {\emph{conservation}} of a quantity, and express that {\emph{the amount
+ of a conserved quantity that enters
+ a domain equals the amount that is stored}}). \\
+
+{\bf{Example (incompressible fluid).}} In the case where one assumes that the density 
+ is uniform and constant (i.e. that the fluid is incompressible), one can write $\rho(\vec{x},t) = \rho_0$,
+ for example $\rho_0 = 10^3 \kg .\m^{-3}$ for water, then Eq. \ref{massCons} becomes and 
+ equation in the velocity field only:
+\begin{equation}
+ \frac{\partial v_j}{\partial x_j} = 0.
+ \label{incomp}
+\end{equation}
+ which is often written as ${\mathrm{div}} \vec{v} = 0$, introducing the 
+ divergence operator. Hence, given an expression 
+ for the velocity fluid of a fluid, one can decide if the fluid is incompressible
+ just by computing the divergence of the velocity field.
+
+
+
+
+\subsection{Acceleration of a particle of fluid}
+
+
+So far we have studied elasticity problems and wrote that the sum of volume  forces
+ and surface forces equals zero. The resulting equation applies to static problems. When
+ we want to write down the dynamics of a flow, the sum of forces 
+ takes the same form, but it equals the variation rate of the impulsion.
+ We therefore have to compute the variation of the impulsion of 
+ the impulsion of the quantity of fluid contained in volume $dV$ at time $t$, that is:
+\begin{equation}
+ \vec{p} = \rho(\vec{x},t) dV \vec{v}(\vec{x},t),
+ \label{impulsion}
+\end{equation}
+ between time $t$ and time $t+\epsilon$, at first order in $\epsilon$.
+ The quantity $\vec{p}$ in Eq. \ref{impulsion} is expressed in Eulerian variables,
+ but we are following the same particle of fluid on its trajectory between times
+ $t$ and $t+\epsilon$ (which is a Lagrangian approach to the problem, but is still tractable 
+ if $\epsilon$ is small enough). First of all, the mass of the particle $\vec{\rho}(\vec{x},t) dV$
+ is conserved between times $t$ and $t+\epsilon$ (the density may vary, but its variation is compensated 
+by a variation of the volume element $dV$), so all we have to do is to compute the 
+variation $\delta\vec{v}$ of the velocity of the particle, at first order in $\epsilon$:
+\begin{equation}
+\delta \vec{v} = \vec{v}( \vec{x} + \vec{v}( \vec{x}, t ) \epsilon + o(\epsilon) ,t + \epsilon) - \vec{v}( \vec{x},t). 
+\label{DLVitesse} 
+\end{equation}
+ The delicate point comes from the fact that {\emph{both}} position and time vary during the move. We can expand 
+ the first term in Eq. \ref{DLVitesse} at first order in $\epsilon$, and both time and space derivatives of the
+Eulerian velocity appear:
+\begin{equation}
+\vec{v}( \vec{x} + \vec{v}( \vec{x}, t ) \epsilon + o(\epsilon) ,t + \epsilon) = \vec{v}( \vec{x},t) +  v_i( \vec{x},t ) \epsilon \frac{\partial }{\partial x_i} \vec{v}( \vec{x}, t ) + \epsilon \frac{\partial}{\partial t} \vec{v}(\vec{x},t) \epsilon. 
+\end{equation}
+Hence 
+\begin{equation}\delta \vec{v} =  \epsilon\left( v_i   \frac{\partial }{\partial x_i} \vec{v} +  \frac{\partial}{\partial t} \vec{v}(\vec{x},t) \right) + o(\epsilon),
+\label{DLVitesse} 
+\end{equation}
+ where all velocities in the r.h.s are now taken at point $\vec{x}$ and time $t$. The quantity we have just computed 
+ is often called the {\emph{particle derivative}} of the velocity (with a differential symbol $D$ instead of $d$ or $\partial$), because it is obtained
+ by following the same particle of fluid along its trajectory:
+\begin{equation}
+ \frac{D\vec{v}}{Dt} = \frac{\partial}{\partial t} \vec{v} + v_i   \frac{\partial }{\partial x_i} \vec{v}.
+\label{particleDer}
+\end{equation}
+Note that it is different from the time derivative of the velocity, and that the difference is non-linear
+ in the velocity field $\vec{v}$: the corresponding term is often called the convection term.
+ By Cauchy's assumption and Stokes' theorem, the sum of forces acting 
+ our the fluid particle is:
+\begin{equation}
+d\vec{F} = f^{vol}_i \vec{e_i} dV + \frac{\partial}{\partial x_j}\sigma_{ij}\vec{e_i} dV,
+\end{equation}
+ where $\fVol = f^{vol}_i \vec{e_i}$ represent the bulk forces applied to a unit volume (for instance
+if bulk forces consist of gravity  $\fVol = - \rho g \vec{e_3}$), 
+ and the equations of motion are given by:
+\begin{equation}
+\rho\frac{D\vec{v}}{Dt} dV=  d\vec{F},
+\label{eom}
+\end{equation}
+ Hence, after dividing both sides by the volume element:
+\begin{equation}
+\boxed{
+\rho\left( \frac{\partial}{\partial t} \vec{v} + \left( v_i   \frac{\partial }{\partial x_i}\right) \vec{v}\right) =  \fVol + \frac{\partial}{\partial x_j}\sigma_{ij}\vec{e_i}.}
+ \label{eomGen}
+ \end{equation} 
+To do computations using Eq. \ref{eomGen}, we need to have a law relating the stress tensor $\sigma$ to the behaviour
+of the fluid (a law that would play the role of Hooke's law in the case of fluids).\\
+
+{\bf{Example (perfect fluids and the Euler equation).}} We will try several possibilities,
+ but the simplest  law one can propose is the isotropic law corresponding to surface forces that 
+ are purely normal:
+\begin{equation}
+\sigma_{ij}(\vec{x},t) := - P(\vec{x},t) \delta_{ij},
+\label{isotropic}
+\end{equation}
+where $P$ is a scalar function
+these are compression forces when $P$ is positive. In this case,  Eq. \ref{eomGen}
+ becomes the Euler equation:
+\begin{equation}
+\rho\left( \frac{\partial}{\partial t} \vec{v} + \left( v_i   \frac{\partial }{\partial x_i}\right)  \vec{v}\right) = \fVol  - \frac{\partial P}{\partial x_i}\vec{e_i}.
+\label{Euler}
+\end{equation}
+It is the equation of motions of fluids that are completely characterized by their density $\rho$ and pressure $P$. 
+ These fluids are called {\emph{perfect fluids}}, or non-viscous fluids. To model the viscosity we will have to add extra terms 
+ to the stress tensor and to use the more general equation of motion \ref{eomGen}.
+
+
+\section{Viscous fluids}
+
+ We want to go beyond the model of perfect fluids in order to describe the {\emph{fact}}
+ that some fluids resist flow more than others.
+
+\subsection{Material law for Newtonian fluids}
+
+ There is no {\emph{mathematical derivation}} of a material law for fluids (there is very little theory
+ when dealing with friction). 
+ All we can do is to propose mathematical forms for material laws translating
+ some physical assumptions, and they will have to be confronted to exepriment.
+ We will limit ourselves to the simplest class of material laws, in which friction 
+ is at most linear in the gradient of the velocity field (the study of fluids with more complex
+ material laws is called {\emph{rheology}}).\\
+
+
+ We already saw one possible material law for fluids, corresponding to an isotropic 
+ stress tensor (Eq. \ref{isotropic}).
+ It gives rise to Euler's equation when substituted into Eq. \ref{eomFluids},
+ and it corresponds to surface  forces that are purely normal (from Cauchy's principle).
+ Hence the material law \ref{isotropic} physically corresponds to neglecting 
+ friction forces in the fluid (in which case the fluid is called a {\emph{perfect fluid}}).\\
+
+ We want to keep the isotropic term in the material law, but we have 
+ to include terms modeling friction.
+ Newtonian fluids are fluids for which an extra term proportional to the first derivatives
+ of the velocity field is included in the material law. The coefficient $\mu$ is called the 
+ viscosity of the fluid, and it only depends on the nature of the fluid
+  (hence perfect fluids are Newtonian fluids with zero viscosity):
+\begin{equation}\boxed{
+\sigma_{ij}( \vec{x}, t ) = -P(\vec{x}, t ) \delta_{ij}+ \mu\left( \frac{\partial v_i}{\partial x_j} + \frac{\partial v_j}{\partial x_i}\right).}
+ \label{sigmaNewton}
+\end{equation}
+ In the case of thin layers of fluid, this model corresponds to friction forces that are proportional to the relative velocity 
+ between thin layers of fluid. To substitute the material law (Eq. \ref{sigmaNewton}) into the equations of motion (Eq. \ref{eomFluids}), we need to compute the following derivatives for all $i$ in $\{  1,2,3\}$:
+\begin{equation}
+\frac{\partial\sigma_{ij}}{\partial x_j}( \vec{x}, t ) = -\frac{\partial P(\vec{x}, t )}{\partial x_j} \delta_{ij}+ \mu\left( \frac{\partial^2 v_i}{\partial x_j\partial x_j} + \frac{\partial^2 v_j}{\partial x_j\partial x_i}\right).
+\end{equation}
+ For incompressible fluids, the divergence of the velocity field is zero (see Eq. \ref{incomp}), so the last term in the ablove equation vanishes (after
+ permuting the two derivatives), hence the 
+ equations of motion become the Navier--Stokes equation:
+ \begin{equation}
+\boxed{
+\rho\left( \frac{\partial \vec{v}}{\partial t} + ( \vec{v}.\vec{\nabla}) \vec{v}\right)= \fVol - \vec{\nabla} P + \mu \Laplace \vec{v}.
+\label{NS}}
+ \end{equation}
+
+ \subsection{Boundary conditions on the velocity fields}
+ The no-slipping condition is imposed: on a fixed boundary, the velocity field is zero, more 
+generally the velocity of the fluid {\emph{coincides with the velocity of the boundary}} (see the 
+ flow between a fixed plaque and a moving plaque for an example). This ensures that the forces 
+ expressed using the stress tensor of Newtonian fluids (Eq. \ref{sigmaNewton}) do not go to infinity.
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+\end{document}
+
+
+
+
+to-do: 
+- biographical notices
+- uniaxial

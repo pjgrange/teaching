@@ -1,0 +1,420 @@
+%\documentclass[12pt]{article}
+%\documentclass[a4paper, 12pt]{scrartcl}
+%\voffset=-0.9in
+%\hoffset=-0.6in
+\documentclass[DIV=12]{article}
+\setlength{\textheight}{9.1in}
+\setlength{\textwidth}{7in} 
+\usepackage[margin=1.1in]{geometry}
+%\usepackage[justification=justified,singlelinecheck=off]{caption}
+
+
+%\cofoot{\footnotesize{\rm{Pascal Grange (August 2013)}} {\rm{\ttfamily{ pascal.grange@polytechnique.org}}}}
+
+
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+  \oldbibliography{#1}%
+  \setlength{\itemsep}{-1pt}%
+{\small
+\bibliography{bibfile}}
+}
+
+
+\usepackage[dvips]{color}
+\bibliographystyle{plain}
+
+\usepackage{graphicx}
+%\usepackage{pdfpages}
+%\usepackage{multicol}
+%\usepackage{pstricks,pst-grad}
+%\usepackage{epsfig}
+\usepackage{amsmath,esint,amssymb}
+
+%\usepackage{subfig}
+%\usepackage{tikz}
+%\usepackage{verbatim}
+\usepackage{amsmath}
+
+%\usepackage{array}
+%\pagestyle{scrheadings}
+
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+\newcommand{\eBase}{(\vec{e_1}, \vec{e_2},\vec{e_3})}
+\newcommand{\eBasePrime}{\left(\vec{e'_1}, \vec{e'_2},\vec{e'_3}\right)}
+\newcommand{\maxX}{12}
+\newcommand{\maxY}{12}
+\newcommand{\vol}{\mathcal{V}}
+\newcommand{\surf}{{\mathcal{S}}}
+\newcommand{\sExt}{{{\mathcal{S}}\rightarrow{\mathrm{ext}}}}
+\newcommand{\intVol}{\iiint}
+\newcommand{\intSurf}{\oiint}
+\newcommand{\fVol}{\vec{f^{vol}}}
+\newcommand{\kg}{\mathrm{kg}}
+\newcommand{\m}{\mathrm{m}}
+\newcommand{\cm}{\mathrm{cm}}
+\newcommand{\s}{\mathrm{s}}
+\newcommand{\Pa}{\mathrm{Pa}}
+\newcommand{\GPa}{\mathrm{GPa}}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\whatIf}{\operatornamewithlimits{=}}
+\newcommand{\etheta}{\vec{e_\theta}}
+\newcommand{\er}{\vec{e_r}}
+\newcommand{\ez}{\vec{e_z}}
+\newcommand{\rCart}{\sqrt{x_1^2+x_2^2}}
+
+\begin{document}
+
+\title{
+\noindent\hrulefill
+\begin{flushleft}
+{\Large \bf{XJTLU, MTH308 (Cartesian tensors and mathematical models of solids and viscous fluids), Semester 2, 2015\\
+\vspace{8mm}
+\hrule
+\vspace{6mm}
+ Lecture 9, 12th May, 2015: Flow between two cylinders (the Couette flow)}}
+\vspace{8mm}
+\hrule
+\vspace{6mm}
+{\Large{Pascal Grange\\
+Department of mathematical sciences\\
+{\ttfamily{pascal.grange@xjtlu.edu.cn}}\\
+}}
+\noindent\hrulefill
+\end{flushleft}}
+\date{}
+\author{}
+\maketitle
+%\noindent\hrulefill
+\vspace{-9mm}
+ 
+{\bf{Keywords}}. Navier--Stokes equation, Couette flow, cylindrical coordinates.\\
+\vspace{3mm}
+
+\tableofcontents 
+
+\vspace{8mm}
+
+
+
+
+
+\section{The Navier--Stokes equations for the Couette flow}
+
+Let us remind the affine form of the material law of Newtonian fluids.
+\begin{equation}
+\sigma_{ij}( \vec{x}, t ) = -P(\vec{x}, t ) \delta_{ij}+ \mu\left( \frac{\partial v_i}{\partial x_j} + \frac{\partial v_j}{\partial x_i}\right).
+ \label{sigmaNewton}
+\end{equation}
+ In the case of thin layers of fluid, this model corresponds to friction forces that are proportional to the relative velocity 
+ between thin layers of fluid. For incompressible fluids, the divergence of the velocity field is zero, hence the 
+ equations of motion become the Navier--Stokes equation:
+ \begin{equation}
+ \rho\left( \frac{\partial \vec{v}}{\partial t} + ( \vec{v}.\vec{\nabla}) \vec{v}\right)= \fVol - \vec{\nabla} P + \mu \Laplace \vec{v}.
+\label{NS}
+ \end{equation}
+In this lecture we will encounter one more example of solution of the Navier--Stokes 
+ equations with cylindrical symmetry, but this time the direction of the velocity field (and not only the 
+ norm) varies from point to point.
+
+
+
+
+\section{The Couette flow}
+
+The Couette flow\footnote{named after the French physicist Maurice Couette (1858-1943), who built the first viscosimeter.} is a permanent flow of an incompressible 
+ fluid  occupying the space between two coaxial cylinders of radii $a$ and $b$, with $a < b$. The inner
+ cylinder is fixed, while the external cylinder is rotating at constant speed  $\omega$ radians per second. As a viscous fluid adhers
+ to boundaries, the velocity field is zero on the inner cylinder, while it equals the velocity of the 
+ external cylinder on $r=b$.\\
+
+
+Let us look for a velocity field that take the following form in  cylindrical coordinates:
+ \begin{equation}
+ \vec{v}( r, \theta) = v( r ) \etheta,
+ \label{velocityForm}
+ \end{equation}
+ where $v$ is a scalar function we will have to determine, 
+which means that the fluid flows in the orthoradial direction, and 
+ the norm of the velocity respects the cylindrical symmetry (it depends only on the 
+ distance from the axis). We also assume that the length of the cylinder is large compared to $a$ 
+ and $b$, so we did not include any dependence on $z$ in the form \label{velocityForm} (this 
+ is equivalent to considering an "infinite cylinder"). Moreover there is no explicit dependence in time in Eq. \ref{velocityForm},
+ which means that we are interested in a steady flow.\\
+
+
+\section{Solution of the equations}
+
+\subsection{Cylindrical coordinates (see tutorial for detailed derivations)}
+
+
+
+ For a scalar function of a point in ${\mathbf{R}}^3$ described by cylindrical coordinates $f: (r,\theta,z) \mapsto f(r,\theta,z)$, the gradient in cylindrical coordinates 
+ is expressed as 
+ \begin{equation}
+ \boxed{
+ \vec{\nabla} f = \frac{\partial f}{\partial r} \er + \frac{1}{r} \frac{\partial f}{\partial \theta} \etheta +   \frac{\partial f}{\partial z} \ez.}
+ \label{gradientCyl}
+ \end{equation}
+
+We can compute the Laplacian of $f$ in cylindrical coordinates by applying  Stokes' theorem to the 
+ flux of $\vec{\nabla} f$ through the boundary of an elementary volume oriented towards the exterior.
+ Consider a vector field $\vec{u}= u_r \er + u_\theta \etheta + u_z \ez$ and apply Stokes' theorem to the flux of $\vec{u}$
+ through an elementary volume centered at point $\vec{x}$ and spanned by the three vectors $dr \er, rd\theta \etheta, dz \ez$ (see tutorial
+ for details):
+\begin{equation}
+dV = rd\theta dr dz,
+\end{equation}
+\begin{equation}
+  \begin{array}{ll}  
+{\mathrm{div}} \vec{u} (r,\theta, z )dV &= (u_z(r,\theta, z + dz) - u_z( r,\theta,z) )rd\theta dr\\
+ & + ( (r+dr)u_r(r+dr, \theta,z) - ru_r(r,\theta,z))d\theta dz \\
+ &+ ( u_\theta( r,\theta + d\theta, z) - u_\theta( r,\theta, z ) )dr dz.\\
+ &= r dr d\theta dz\left(  \frac{1}{r}\frac{\partial( r u_r)}{\partial r} + \frac{1}{r} \frac{\partial u_\theta}{\partial \theta} + \frac{\partial u_z}{\partial z}\right),
+ \end{array}
+\label{divEquation}
+\end{equation}
+hence 
+\begin{equation}
+\boxed{
+ {\mathrm{div}} \vec{u}  = \frac{1}{r}\frac{\partial}{\partial r}\left( ru_r\right)+ \frac{1}{r}\frac{\partial u_\theta}{\partial \theta}  + \frac{\partial  u_z}{\partial z}}
+\end{equation}
+Substituting the gradient of $f$ (Eq. \ref{gradientCyl}) to $\vec{u}$, we obtain:
+\begin{equation}
+\boxed{
+ \Laplace f  (r,\theta, z )= \frac{1}{r}\frac{\partial}{\partial r}\left( r\frac{\partial f}{\partial r}\right)+ \frac{1}{r}\frac{\partial}{\partial \theta} \left( \frac{1}{r} 
+\frac{\partial f}{\partial \theta}\right) + \frac{\partial ^2 f}{\partial z^2}.}
+\label{LaplacianCyl}
+\end{equation}
+
+
+\subsection{Rewriting the Navier--Stokes equations in cylindrical coordinates}
+The time derivative of the velocity field is zero, as usual for permanent flows: 
+\begin{equation}
+\boxed{
+\frac{\partial \vec{v}}{ \partial t} =\vec{0}.}
+ \label{timeDerivative}
+ \end{equation}
+Consider the expression proposed in Eq. \ref{velocityForm} for the velocity field in cylindrical 
+coordinates. As usual we write down the differential operator used to compute the convection term, 
+ which from Eq. \ref{gradientCyl}:
+\begin{equation}
+\vec{v}.\vec{\nabla} =  \frac{v( r)}{r} \frac{\partial }{ \partial \theta }. 
+\end{equation}
+We compute the convection term by acting with this differential on the velocity field,
+ without forgetting that $\etheta$ is a not constant vector but depends on $\theta$:
+\begin{equation}
+(\vec{v}.\vec{\nabla} ) \vec{v} =  \frac{v( r)}{r} \frac{\partial }{ \partial \theta }( v(r) \etheta) = \frac{v( r)^2}{r} \frac{\partial }{ \partial \theta } \er
+= -\frac{v( r)^2}{r} \er.
+\end{equation}
+
+Of course we obtain the same result if we use the base $\eBase$ to express the velocity field,
+ because the vectors $\vec{e_1}$ and $\vec{e_2}$ are constant:
+ \begin{equation}
+\boxed{
+(\vec{v}.\vec{\nabla} ) \vec{v} =  \frac{v( r)}{r} \frac{\partial }{ \partial \theta }\left(v(r)( -\sin\theta \vec{e_x}+ \cos\theta \vec{e_y})\right) = \frac{v( r)^2}{r} \left(-\cos\theta \vec{e_x}-\sin\theta \vec{e_y}\right) = -\frac{v(r)^2}{r}\er.}
+ \end{equation}
+The pressure term is a simple application of the differential operator to the scalar function $P$:
+\begin{equation}
+ \boxed{
+ -\vec{\nabla} P = -\frac{\partial P}{\partial r} \er - \frac{1}{r} \frac{\partial P}{\partial \theta} \etheta -  \frac{\partial P}{\partial z} \ez.
+ }
+\end{equation}
+
+ The Laplacian term can be computed in the same way, acting with the differential operator 
+ on the vector $\vec{v}$, not forgetting to differentiate the vectors of the base:
+ \begin{equation}
+  \begin{array}{ll}  
+ \Laplace \vec{v}(r,\theta) &=  \frac{1}{r}\frac{\partial}{\partial r}\left( r\frac{\partial (v(r) \etheta)}{\partial r}\right) + \frac{1}{r}\frac{\partial}{\partial \theta} \left( \frac{1}{r} 
+\frac{\partial (v(r) \etheta)}{\partial \theta}\right)\\
+ &= \left(  \frac{1}{r} \frac{d}{dr}( r v'(r)) \right) \etheta + \frac{1}{r}\frac{\partial}{\partial \theta} \left( - \frac{v(r) }{r} \er \right)\\
+ & =  \left( \frac{1}{r} \frac{d}{dr}( r v'(r))  - \frac{v(r)}{r^2}\right) \etheta
+ \end{array} 
+ \end{equation}
+Collecting the scalar coefficients of the three vectors $\er,\etheta,\ez$, we obtain the following system of equations:
+\begin{equation}
+\boxed{\begin{cases}
+  \begin{array}{ll} 
+   & -\rho\frac{v^2}{r} = -\frac{\partial P}{ \partial r}\\
+   &0 = -\frac{1}{r}\frac{\partial P}{ \partial \theta} + \frac{\mu}{r}\frac{d}{dr}( r v'(r)) -\mu\frac{v(r)}{r^2}\\
+   &0 =  -\rho g - \frac{\partial P}{\partial z}\\
+   \end{array}\end{cases}}
+\label{systemCyl}
+\end{equation}
+
+ \subsection{Integration of the Navier--Stokes equations}
+ The third equation of the system is the same as in Cartesian coordinates and just expresses the hydrostatic dependence of the pressure 
+ field. Integrating the second equation (the one corresponding to the coefficients along $\etheta$) is enough to determine the 
+ velocity field. First of all, we notice that $\partial P / \partial \theta$ depends only on $r$:
+\begin{equation}
+\frac{\partial P}{ \partial \theta}  = \mu\frac{d}{dr}( r v'(r)) -\mu\frac{v(r)}{r},
+ \label{eqSufficient}
+\end{equation}
+ hence there exists two functions of $r$ only, call them $C$ and $D$, such that
+\begin{equation}
+ P(r,\theta, z ) = C( r ) \theta -\rho g z + D(r ).
+\end{equation}
+ However, since $\theta$ is defined up to a multiple of $2\pi$, the function $\theta \mapsto P(r,\theta,z)$ must be
+ $2\pi$-periodic for all values of $r$ and $z$ between the two cylinders. The only way to 
+ satisfy this periodicity condition is to have $C(r) = 0$. Hence the pressure does not depend on the orthoradial
+ angle:
+\begin{equation}
+\frac{\partial P}{\partial \theta} = 0,
+\end{equation}
+ and Eq. \ref{eqSufficient} become an equation in $v$ only:\\
+\begin{equation}
+\frac{d}{dr}( r v'(r)) - \frac{v(r)}{r}= 0.
+\end{equation}
+We rewrite it as
+\begin{equation}
+v'' + \frac{v'}{r}- \frac{v}{r^2} = 0.
+\end{equation}
+We integrate this equation once: there exists a constant $D$ such that
+\begin{equation}
+ v' +\frac{v}{r} = D.
+\end{equation}
+ The function $r\mapsto Dr/2$ is a particular solution of this equation, and we
+ can introduce another constant $E$ (and redefine the unknown constant $D$) such that
+\begin{equation}
+ v( r ) = \frac{E}{r} + Dr.
+\end{equation}
+ Since the radius of the inner cylinder is strictly positive, this expression is finite
+ for all values of $r$ corresponding to points between the two cylinders, 
+ and we can determine the two constants using the two boundary conditions:
+\begin{equation}
+ v( a ) = 0,\;\;\; v( b ) = b\omega.
+\end{equation}
+ Hence
+\begin{equation}
+ \begin{cases}
+  \begin{array}{ll}  
+  0 & = \frac{E}{a} + Da \\
+  b\omega & = \frac{E}{b} + Db.
+ \end{array}
+\end{cases} 
+ \end{equation}
+Hence
+ \begin{equation}
+ D = \frac{b^2\omega}{b^2 - a^2},\;\;\; E = -\frac{a^2b^2\omega}{ b^2 - a^2}.
+ \end{equation}
+ from which we obtain the expression of the velocity field:
+\begin{equation}
+\boxed{
+\vec{v}(r,\theta,z) = \left( \frac{b^2\omega}{ b^2 - a^2}\left( -\frac{a^2}{r} + r \right) \right) \etheta.}
+\end{equation}
+ and also the pressure by integration of the component of the Navier--Stokes equation along direction $\er$:
+\begin{equation}
+P(r,\theta,z) = -\rho g z + \rho\int_a^b\left( \frac{v^2(r)}{r}\right)dr + constant
+\end{equation}
+
+
+
+\end{document}
+
+\section{Application: the Couette flow as a viscosimeter}
+ In order to maintain the movement of the external cylinder at a constant
+ speed, the operator must exert a force to compensate the friction 
+ force exerted by the fluid on the external cylinder.\\
+
+This force must be orthoradial, and to compute it we have to use the expression 
+ of the stress tensor, which we have in Cartesian coordinates. But by cylindrical 
+ symmetry, it is enough to compute the norm of the force at point of coordinates 
+  $(x_1 = b, x_2 = 0, z = 0)$, at which $r=b$ and $\etheta = \vec{e_2}$.
+ \begin{equation}
+\vec{v}(\vec{x}) = u_1 \vec{e_1} + u_1 \vec{e_2},
+\end{equation}
+where from the expression in cylindrical coordinates we have
+ \begin{equation}
+u_1 =  -\frac{x_2}{\sqrt{x_1^2+x_2^2}}\left(\frac{E}{\sqrt{x_1^2+x_2^2}} +  D \sqrt{x_1^2+x_2^2}\right)
+\end{equation}
+\begin{equation}
+u_1 =  \frac{x_1}{\sqrt{x_1^2+x_2^2}}\left(\frac{E}{\sqrt{x_1^2+x_2^2}} +  D \sqrt{x_1^2+x_2^2}\right)
+\end{equation}
+
+
+
+
+
+
+ \subsection{Incompressibility}
+
+Since the only non-zero component of the velocity field are 
+ along vectors $\vec{e_1}$ and $\vec{e_2}$, we can write the incompressibility condition as:
+ \begin{equation}
+\frac{\partial u_1}{\partial x_1} + \frac{\partial u_2}{\partial x_2} = 0.
+ \label{conservation}
+ \end{equation}
+Let us compute the two terms in the sum explicitly, as we will need them in the Navier--Stokes equations:
+\begin{equation}
+\frac{\partial u_1}{\partial x_1} = 
+\end{equation}
+
+\begin{equation}
+\frac{\partial u_2}{\partial x_2} = 
+\end{equation}
+
+\subsection{Explicit form of each term in the Navier--Stokes equations}
+ Let us go through the terms in Navier--Stokes equations one by one.\\
+
+ As we are interested in permanent flows, the partial derivative w.r.t. time reduces to zero, hence
+ \begin{equation}
+\boxed{
+\frac{\partial \vec{v}}{ \partial t} =\vec{0}.}
+ \label{timeDerivative}
+ \end{equation}
+
+ In the convection term, the differential operator consists of just one
+ term, $\vec{v}.\vec{nabla} = w \frac{\partial}{\partial z}$, and when
+ applied to the velocity field it returns a vector colinear to $\vec{e_3}$:
+ \begin{equation}
+ (\vec{v}.\vec{\nabla})\vec{v} = \left(w \frac{\partial }{\partial z} \right) (w \vec{e_3}) =  \left(w \frac{\partial w}{\partial z}\right) \vec{e_3},
+ \end{equation}
+but using incompressibility (Eq. \ref{conservation}), we see that the coefficient reduces to zero:\\
+\begin{equation}
+\boxed{
+ (\vec{v}.\vec{\nabla})\vec{v} = \vec{0}.}
+\label{convection}
+ \end{equation}
+The volume forces reduce to gravity:
+\begin{equation}
+\fVol = -\rho g \vec{e_3}.
+\label{fVol}
+\end{equation}
+
+The pressure term have components in the three directions:
+\begin{equation}
+\boxed{
+ -\vec{\nabla} P = - \frac{\partial P}{\partial x}\vec{e_1} -  \frac{\partial P}{\partial y}\vec{e_2}-  \frac{\partial P}{\partial z}\vec{e_3}.}
+ \label{pressureGradient}
+\end{equation}
+
+The viscosity term consists of just two terms, as the term $\frac{\partial^2 w}{\partial z^2} = \frac{\partial }{\partial }\left( \frac{\partial w}{\partial z } \right)$
+ vanishes due to incompressibility (Eq. \ref{conservation}):
+\begin{equation}
+\boxed{
+\mu \Delta \vec{v} = \mu\left(\frac{\partial^2 w}{\partial x^2} + \frac{\partial^2 w}{\partial y^2} + \frac{\partial^2 w}{\partial z^2}   \right) \vec{e_3} = \mu\left(\frac{\partial^2 w}{\partial x^2} + \frac{\partial^2 w}{\partial y^2}   \right) \vec{e_3}.}
+ \label{viscosity}
+\end{equation}
+
+Collecting the terms colinear to be base vectors in $\eBase$ from Eqs. \ref{timeDerivative},\ref{convection},\ref{fVol},\ref{pressure},\ref{viscosity}, we
+ ontain the following system of three scalar PDEs:
+\begin{equation}
+  \begin{array}{ll} &0 = -\frac{\partial P}{ \partial x} \\
+   &0 = -\frac{\partial P}{ \partial y}\\
+   &0 =  -\rho g - \frac{\partial P}{ \partial z} +\mu\left(\frac{\partial^2 w}{\partial x^2} + \frac{\partial^2 w}{\partial y^2}   \right)\\
+   \end{array}
+\label{system}
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+to-do: 
+- biographical notices
+- uniaxial

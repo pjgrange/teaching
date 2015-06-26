@@ -1,0 +1,8 @@
+\contentsline {section}{\numberline {1}Volume forces and surface forces, the Cauchy postulate}{1}
+\contentsline {section}{\numberline {2}Stokes' theorem: reminder of the scalar version, tensor version}{2}
+\contentsline {section}{\numberline {3}Surface forces are a linear function of the normal vector to the surface}{3}
+\contentsline {subsection}{\numberline {3.1}Balance equation of a thin cylinder}{3}
+\contentsline {subsection}{\numberline {3.2}Balance equation of a (small) tetrahedron}{4}
+\contentsline {section}{\numberline {4}Balance equations for a continuous medium}{6}
+\contentsline {subsection}{\numberline {4.1}Forces sum to zero}{6}
+\contentsline {subsection}{\numberline {4.2}Momenta of forces sum to zero, hence the stress tensor is symmetric}{6}

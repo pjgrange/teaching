@@ -1,0 +1,8 @@
+\contentsline {section}{\numberline {1}Tensors and continuous media: motivations and history}{2}
+\contentsline {section}{\numberline {2}Elements of linear algebra, notations and conventions}{2}
+\contentsline {subsection}{\numberline {2.1}Notations: summing over repeated indices}{2}
+\contentsline {subsection}{\numberline {2.2}Scalar product, Kronecker symbol}{3}
+\contentsline {section}{\numberline {3}Transformation rules from changes of orthonormal base}{4}
+\contentsline {subsection}{\numberline {3.1}Transformation of vectors}{4}
+\contentsline {subsection}{\numberline {3.2}Transformation of matrices}{5}
+\contentsline {section}{\numberline {4}Definition of tensors}{6}

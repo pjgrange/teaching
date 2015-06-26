@@ -1,0 +1,4 @@
+\contentsline {section}{\numberline {1}Hooke's law}{1}
+\contentsline {section}{\numberline {2}Linearized strain tensor}{4}
+\contentsline {section}{\numberline {3}Deformations as a function of stress}{5}
+\contentsline {section}{\numberline {4}Stress as a function of deformation}{6}

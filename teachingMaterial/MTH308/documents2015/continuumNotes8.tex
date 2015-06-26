@@ -1,0 +1,407 @@
+%\documentclass[12pt]{article}
+%\documentclass[a4paper, 12pt]{scrartcl}
+%\voffset=-0.9in
+%\hoffset=-0.6in
+\documentclass[DIV=12]{article}
+\setlength{\textheight}{9.1in}
+\setlength{\textwidth}{7in} 
+\usepackage[margin=1.1in]{geometry}
+%\usepackage[justification=justified,singlelinecheck=off]{caption}
+
+
+%\cofoot{\footnotesize{\rm{Pascal Grange (August 2013)}} {\rm{\ttfamily{ pascal.grange@polytechnique.org}}}}
+
+
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+  \oldbibliography{#1}%
+  \setlength{\itemsep}{-1pt}%
+{\small
+\bibliography{bibfile}}
+}
+
+
+\usepackage[dvips]{color}
+\bibliographystyle{plain}
+
+\usepackage{graphicx}
+%\usepackage{pdfpages}
+%\usepackage{multicol}
+%\usepackage{pstricks,pst-grad}
+%\usepackage{epsfig}
+\usepackage{amsmath,esint,amssymb}
+
+%\usepackage{subfig}
+%\usepackage{tikz}
+%\usepackage{verbatim}
+\usepackage{amsmath}
+
+%\usepackage{array}
+%\pagestyle{scrheadings}
+
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+\newcommand{\eBase}{(\vec{e_1}, \vec{e_2},\vec{e_3})}
+\newcommand{\eBasePrime}{\left(\vec{e'_1}, \vec{e'_2},\vec{e'_3}\right)}
+\newcommand{\maxX}{12}
+\newcommand{\maxY}{12}
+\newcommand{\vol}{\mathcal{V}}
+\newcommand{\surf}{{\mathcal{S}}}
+\newcommand{\sExt}{{{\mathcal{S}}\rightarrow{\mathrm{ext}}}}
+\newcommand{\intVol}{\iiint}
+\newcommand{\intSurf}{\oiint}
+\newcommand{\fVol}{\vec{f^{vol}}}
+\newcommand{\kg}{\mathrm{kg}}
+\newcommand{\m}{\mathrm{m}}
+\newcommand{\cm}{\mathrm{cm}}
+\newcommand{\s}{\mathrm{s}}
+\newcommand{\Pa}{\mathrm{Pa}}
+\newcommand{\GPa}{\mathrm{GPa}}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\whatIf}{\operatornamewithlimits{=}}
+
+
+
+\begin{document}
+
+\title{
+\noindent\hrulefill
+\begin{flushleft}
+{\Large \bf{XJTLU, MTH308 (Cartesian tensors and mathematical models of solids and viscous fluids), Semester 2, 2015\\
+\vspace{8mm}
+\hrule
+\vspace{6mm}
+ Lecture 8, 5th May2015: Navier--Stokes equations, the case of the Poiseuille flow}}
+\vspace{8mm}
+\hrule
+\vspace{6mm}
+{\Large{Pascal Grange\\
+Department of mathematical sciences\\
+{\ttfamily{pascal.grange@xjtlu.edu.cn}}\\
+}}
+\noindent\hrulefill
+\end{flushleft}}
+\date{}
+\author{}
+\maketitle
+%\noindent\hrulefill
+\vspace{-9mm}
+ 
+{\bf{Keywords}}. Navier--Stokes equations, Poiseuille flow, viscosity, viscosimetry.\\
+\vspace{3mm}
+
+\tableofcontents 
+
+\vspace{8mm}
+
+
+
+
+
+\section{Navier--Stokes equations for incompressible fluids}
+
+Let us remind the affine form of the material law of Newtonian fluids.
+\begin{equation}
+\sigma_{ij}( \vec{x}, t ) = -P(\vec{x}, t ) \delta_{ij}+ \mu\left( \frac{\partial v_i}{\partial x_j} + \frac{\partial v_j}{\partial x_i}\right).
+ \label{sigmaNewton}
+\end{equation}
+ In the case of thin layers of fluid, this model corresponds to friction forces that are proportional to the relative velocity 
+ between thin layers of fluid. For incompressible fluids, the divergence of the velocity field is zero, hence the 
+ equations of motion become the Navier--Stokes equation:
+ \begin{equation}
+ \frac{\partial \vec{v}}{\partial t} + ( \vec{v}.\vec{\nabla}) \vec{v}= \fVol - \vec{\nabla} P + \mu \Laplace \vec{v}.
+\label{NS}
+ \end{equation}
+In this lecture we will practice the integration of the Navier--Stokes equations,
+ and propose a crucial experiment that allows one to decide whether a given fluid is Newtonian,
+ and if it is to measure its viscosity.
+
+
+\section{Solution of the Navier--Stokes equations for the Poiseuille flow}
+
+The Poiseuille flow\footnote{named after the French physicist Jean Poiseuille, who first publised (in 1840) the relation 
+ between the flow rate of a tube, the difference of pressure between the ends and the fourth power of the radius 
+ which we will derive. The motivation was the study of the flow of blood in arteries.} is a permanent flow in a cylindrical pipe (of radius $R$, say),
+which for definiteness we will assumed to be oriented vertically (in order to take gravity 
+into account).\\
+
+ As the Navier-Stokes equations are non-linear (due to the
+convection term) and of order 2 in all spatial derivatives, they are extremely 
+difficult to solve in full generality, so we have to make 
+ additional assumptions when solving them. We will follow these steps:\\
+- Propose a functional form for the velocity field, based on the symmetries of the 
+ problem;\\
+- Write the incompressibility condition;\\
+- Write down the terms in the Navier--Stokes equations in terms of the 
+ components of the velocity, one by one (using the incompressibility to simplify the expression when it is 
+ possible).\\
+- Write a set of three scalar PDEs by projecting each term on each of the axes 
+ in the coordinate system.\\
+- Solve these equations, with  boundary conditions given by the non-slipping condition, introducing as many
+ intergation constants as we need.
+
+\subsection{Form of the velocity field}
+ The system has cyclindrical symmetry around the axis $\vec{e_3}$ of the 
+ pipe, and we are interested in permanent flows, so we propose to look for 
+ solutions in which the only non-zero component of the velocity is along $\vec{e_3}$, and does not depend on time:\\
+\begin{equation}
+ \boxed{
+ \vec{v}( x,y,z,t ) = w( x,y,z) \vec{e_3},}
+ \label{ansatz}
+\end{equation}
+ where $w$ is a scalar function, and $(x,y,z)$ denote the Cartesian coordinates 
+ in the base $\eBase$, i.e. the position of a point in space is given by $\vec{x} = x_i \vec{e_i} = x\vec{e_1} + y \vec{e_2} + z \vec{e_3}$,
+ in other words we introduce the notations $x=x_1$, $y=x_2$ and $z = x_3$.
+ If we define the components of the velocity by equation $\vec{v} = v_i \vec{e_i}$, Eq.  \ref{ansatz}
+ expresses that $v_1 = v_2 = 0$ in the solutions we are looking for. 
+
+\subsection{Incompressibility}
+
+Since the only non-zero component of the velocity field is along $\vec{e_3}$, 
+the equation $\frac{\partial v_i}{\partial x_i} = 0 $ becomes
+ \begin{equation}
+\boxed{
+\frac{\partial w}{ \partial z} = 0.}
+ \label{conservation}
+ \end{equation}
+
+
+\subsection{Explicit form of each term in the Navier--Stokes equations}
+ Let us go through the terms in Navier--Stokes equations one by one.\\
+
+ As we are interested in permanent flows, the partial derivative w.r.t. time reduces to zero, hence
+ \begin{equation}
+\boxed{
+\frac{\partial \vec{v}}{ \partial t} =\vec{0}.}
+ \label{timeDerivative}
+ \end{equation}
+
+ In the convection term, the differential operator consists of just one
+ term, $\vec{v}.\vec{\nabla} = w \frac{\partial}{\partial z}$, and when
+ applied to the velocity field it returns a vector colinear to $\vec{e_3}$:
+ \begin{equation}
+ (\vec{v}.\vec{\nabla})\vec{v} = \left(w \frac{\partial }{\partial z} \right) (w \vec{e_3}) =  \left(w \frac{\partial w}{\partial z}\right) \vec{e_3},
+ \end{equation}
+but using incompressibility (Eq. \ref{conservation}), we see that the coefficient reduces to zero:\\
+\begin{equation}
+\boxed{
+ (\vec{v}.\vec{\nabla})\vec{v} = \vec{0}.}
+\label{convection}
+ \end{equation}
+The volume forces reduce to gravity:
+\begin{equation}
+\fVol = -\rho g \vec{e_3}.
+\label{fVol}
+\end{equation}
+
+The pressure term have components in the three directions:
+\begin{equation}
+\boxed{
+ -\vec{\nabla} P = - \frac{\partial P}{\partial x}\vec{e_1} -  \frac{\partial P}{\partial y}\vec{e_2}-  \frac{\partial P}{\partial z}\vec{e_3}.}
+ \label{pressure}
+\end{equation}
+
+The viscosity term consists of just two terms, as the term $\frac{\partial^2 w}{\partial z^2} = \frac{\partial }{\partial }\left( \frac{\partial w}{\partial z } \right)$
+ vanishes due to incompressibility (Eq. \ref{conservation}):
+\begin{equation}
+\boxed{
+\mu \Delta \vec{v} = \mu\left(\frac{\partial^2 w}{\partial x^2} + \frac{\partial^2 w}{\partial y^2} + \frac{\partial^2 w}{\partial z^2}   \right) \vec{e_3} = \mu\left(\frac{\partial^2 w}{\partial x^2} + \frac{\partial^2 w}{\partial y^2}   \right) \vec{e_3}.}
+ \label{viscosity}
+\end{equation}
+
+Collecting the terms colinear to be base vectors in $\eBase$ from Eqs. \ref{timeDerivative},\ref{convection},\ref{fVol},\ref{pressure},\ref{viscosity}, we
+ ontain the following system of three scalar PDEs:
+\begin{equation}
+  \begin{array}{ll} &0 = -\frac{\partial P}{ \partial x} \\
+   &0 = -\frac{\partial P}{ \partial y}\\
+   &0 =  -\rho g - \frac{\partial P}{ \partial z} +\mu\left(\frac{\partial^2 w}{\partial x^2} + \frac{\partial^2 w}{\partial y^2}   \right)\\
+   \end{array}
+\label{system}
+\end{equation}
+
+\subsection{Solution of the equations}
+The first two equations in the system \ref{system} imply that $P$ depends only on the coordinate $z$, hence there exists a function
+ $p$ of just one variable such that 
+\begin{equation}
+ P(x,y,z) = p(z).
+\end{equation}
+Hence the last equation of the sytem can be written as:
+\begin{equation}
+\frac{d}{dz}( p( z ) + \rho g z ) = \mu \left(\frac{\partial^2 w}{\partial x^2} + \frac{\partial^2 w}{\partial y^2}   \right).
+\label{axisEq}
+\end{equation}
+ The l.h.s. of Eq. \ref{axisEq} is a function of the variable $z$, but the r.h.s. depends on $x$ and $y$ only,
+ since incompressibility implies $\frac{\partial w}{\partial z} = 0$. So there exists a function of two variables (denoted by $\tilde{w}$) such 
+ that $w(x,y,z) = {\tilde{w}}(x,y)$ for all $x,y,z$.\\ 
+Hence we can separate variables in Eq. \ref{axisEq}, bacause the l.h.s. depends only on $z$ and the $r.h.s$ depends only 
+ on $x$ and $y$:
+\begin{equation}
+\frac{d}{dz}( p( z ) + \rho g z ) = \mu \left(\frac{\partial^2 {\tilde{w}}}{\partial x^2} + \frac{\partial^2 {\tilde{w}}}{\partial y^2}   \right)(x,y),
+\label{axisEqSep}
+\end{equation}
+hence there exists a real constant, denoted by $C$, such that
+  the two sides of Eq. \ref{axisEqSep} verify:
+\begin{equation}
+ C = \frac{d}{dz}( p( z ) + \rho g z ),
+\label{CDef}
+\end{equation}
+
+\begin{equation}
+C =  \mu \left(\frac{\partial^2 {\tilde{w}}}{\partial x^2} + \frac{\partial^2 {\tilde{w}}}{\partial y^2}   \right)(x,y).
+\label{constxy}
+\end{equation}
+
+ Since we are using Cartesian coordinates (and not cylindrical coordinates), the form we proposed in Eq. \ref{ansatz}
+ does not make full use of the cylindrical symmetry of the problem. In order to keep working in Cartesian coordinates (which 
+ we chose to do because differential operators are simpler in Cartesian coordinates than in cylindrical coordinates), we 
+ define the function $r$ of two variables by 
+\begin{equation}
+ r( x,y) = \sqrt{x^2 + y^2},
+\end{equation}
+ which measures the distance to the axis of the pipe, and we
+assume there exists a function $\phi$ of just one variable such that
+\begin{equation}
+ w( x,y ) = \psi( r( x,y)).
+\end{equation}
+ In other words $w = \phi \circ r$. We can express partial derivatives of 
+ the  function $w$ using the rules for the differentiation of 
+ the composition of functions:\\
+
+\begin{equation}
+\frac{\partial {\tilde{w}} }{\partial x} (x,y)= \frac{\partial r }{\partial x}(x,y) \psi'( r(x,y)) = \frac{x}{\sqrt{x^2 + y^2}}\psi'( r(x,y)),
+\end{equation}
+
+\begin{equation}
+\frac{\partial^2 {\tilde{w}} }{\partial x^2} (x,y)= \frac{1 }{ \sqrt{x^2 + y^2}} \psi'( r(x,y)) - \frac{x^2}{(x^2 + y^2 )^{\frac{3}{2}}}\psi'( r(x,y)) 
++  \frac{x^2}{x^2 + y^2}\psi''( r(x,y)),
+\end{equation}
+
+\begin{equation}
+\frac{\partial {\tilde{w}}}{\partial y} (x,y)= \frac{\partial r }{\partial y}(x,y) \psi'( r(x,y)) = \frac{y}{\sqrt{x^2 + y^2}}\psi'( r(x,y)),
+\end{equation}
+
+\begin{equation}
+\frac{\partial^2 {\tilde{w}} }{\partial y^2} (x,y)= \frac{1 }{ \sqrt{x^2 + y^2}} \psi'( r(x,y)) - \frac{y^2}{(x^2 + y^2 )^{\frac{3}{2}}}\psi'( r(x,y)) 
++  \frac{y^2}{x^2 + y^2}\psi''( r(x,y)),
+\end{equation}
+so that the Laplacian of ${\tilde{w}}$ reduces to
+
+\begin{equation}
+ \begin{array}{ll} 
+\frac{\partial^2  {\tilde{w}}}{\partial x^2} (x,y)+ \frac{\partial^2 w }{\partial y^2} (x,y) &= \frac{2 }{ \sqrt{x^2 + y^2}} \psi'( r(x,y)) - \frac{x^2+ y^2}{(x^2 + y^2 )^{\frac{3}{2}}}\psi'( r(x,y)) + \psi''( r(x,y))\\
+ &= \frac{\psi'( r(x,y) )}{\sqrt{x^2 + y^2}} +  \psi''( r(x,y)).\\
+ \end{array}
+\label{Laplace}
+\end{equation}
+
+
+Hence we can rewrite Eq. \ref{constxy} is terms of the radial variable $\rho$ of cylindrical coordinates as:
+\begin{equation}
+C = \mu\left( \frac{\psi'(\rho)}{\rho} + \psi''(\rho) \right).  
+ \label{constrho}
+\end{equation}
+ Since the fluid is viscous, it sticks to the boundary of the pipe, 
+ so we have the following boundary condition
+\begin{equation}
+ \psi( R ) = 0.
+\end{equation}
+
+ Let us look for a solution of Eq. \ref{constrho} of the form $\phi = A r^\alpha + {\mathrm{const}}$. If it exists
+ we must have
+\begin{equation}
+\frac{C}{\mu} = A( \alpha + \alpha( \alpha - 1 ) )\rho^{\alpha-2},
+\end{equation}
+ hence $\alpha = 2$ because the l.h.s. does not depend on $\rho$, and 
+\begin{equation}
+A = \frac{C}{4\mu},
+\end{equation}
+from which we obtain
+\begin{equation}
+\psi(r) = \frac{C}{4\mu}\left( r^2 -R^2\right),
+ \label{phiSol}
+\end{equation} 
+ in which the constant was determined using condition $\phi(R) = 0$. 
+ In terms of the velocity field and Cartesian coordinates we find:
+\begin{equation}
+ \vec{v}( x,y,z,t) =   \frac{C}{4\mu}\left( r^2 - R^2 \right) \vec{e_3},
+\end{equation}
+The constant $C$ can be interpreted in two cases.\\
+$\bullet$ {\bf{First case: flow under the influence of gravity.}} If the beginning and the end of the 
+ pipe (at $z=0$ and $z = -L$, say), are at equilibrium with the atmosphere,
+ $p (0)= p(-L) = P_{atm}$, and $C$ is obtained by integrating Eq. \ref{CDef}
+ between $z=0$ and $z = -L$:\\
+\begin{equation}
+ \int_0^{-L} C dz = \int_0^{-L} \frac{d}{dz}(  p(z) + \rho g z ) dz,\;\;\;\; {\mathrm{i.e.}} \;\;\;\;C(-L-0) =  P_{atm} - P_{atm} + \rho g (-L-0),
+\end{equation}
+hence $C= \rho g $, hence inside 
+ the pipe, where $r<R$, the function $\psi$  is negative, and the liquid
+ follows from larger to lower values of $z$, as it should because it flows under the influence of gravity.\\
+$\bullet$ {\bf{Second case: flow under the influence of a difference of pressure.}}
+On the other hand, if one neglects gravity, the contribution 
+ of volume forces becomes zero, and one obtains $p(z)= Cz + {\mathrm{const}}$, hence if $P$ is a decreasing function
+ of $z$, one has $C<0$, and one finds   that $\phi$ is positive because of Eq. \ref{phiSol},
+ hence the fluid flows from regions of larger pressure to regions of lower pressure, 
+ in agreement with intuition.
+
+
+\section{Application: the Poiseuille flow as a viscosimeter}
+
+Let us compute the volume of liquid that passes through a
+ section of the pipe during a unit of time (denote this quantity by $D$, whose unit is $m^3.s^{-1}$. Since the velocity 
+ of the fluid is orthogonal to the section of the pipe It is just the integral of the scalar function $w$ over a disk of radius 
+$r$:\\
+\begin{equation}
+  \begin{array}{ll} D&= \int_0^R 2\pi r w(r) dr\\
+   & = -\frac{2\pi C}{4\mu} \int_0^R\left( R^2 - r^2\right) r dr\\
+   & =- \frac{\pi C}{2\mu} \left( R^2 \times \frac{R^2}{2}- \frac{R^4}{4}\right)\\
+   & = -\frac{C\pi}{8\mu} R^4.  
+   \end{array}
+\label{DCalc}
+\end{equation}
+Again, let us assume that the pipe is a cyclinder filled with a liquid, in equilibrium with the
+atmosphere on top ($z=0$), equipped with a tap on the bottom (at $z=-L$). When one opens the tap, the fluid
+ is at equilibrium with the atmosphere at the bottom, and starts flowing 
+ under the influence of gravity, hence $C=\rho g$. Let us assume that a permanent flow is established,
+ and let us measure put a bowl under the pipe for one second. We can measure the volume 
+ of the fluid that flows into the bowl, and weigh it, which allows us 
+ to determine the density of the fluid and the constant $C$.\\
+ After repeating the experiment with different pipes of varying diameter $R$,
+we can plot the measured volume as a function of $R^4$. If the resulting graph is 
+ a piece of straight line going through the origin, we conclude that the fluid is Newtonian and
+ we can measure the slope of the line 
+ and deduce the value of the viscosity $\mu$.
+ If it is not a straight line, we conclude that the fluid is not Newtonian. At a temperature of 25 degrees Celsius,
+ the viscosity of water is about $10^{-3}$ Pa.s, the one of acetone is about $3.10^{-4}$ Pa.s, and the one of olive
+ oil about $8.10^{-2}$ Pa.s. Non-Newtonian fluids include ketchup and toothpaste (which do not flow until 
+ a sufficient stress is applied to them, and are called Bingham fluids), and by performing 
+this experiment one can prove that  sand is not a Newtonian fluid. 
+ 
+
+
+
+
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+to-do: 
+- biographical notices
+- uniaxial

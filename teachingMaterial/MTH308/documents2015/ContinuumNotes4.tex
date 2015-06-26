@@ -1,0 +1,259 @@
+%\documentclass[12pt]{article}
+%\documentclass[a4paper, 12pt]{scrartcl}
+%\voffset=-0.9in
+%\hoffset=-0.6in
+\documentclass[DIV=12]{article}
+\setlength{\textheight}{9.1in}
+\setlength{\textwidth}{7in} 
+\usepackage[margin=1.1in]{geometry}
+%\usepackage[justification=justified,singlelinecheck=off]{caption}
+\usepackage{amsmath,esint}
+
+\newcommand{\vol}{\mathcal{V}}
+\newcommand{\surf}{{\mathcal{S}}}
+\newcommand{\sExt}{{{\mathcal{S}}\rightarrow{\mathrm{ext}}}}
+\newcommand{\intVol}{\iiint}
+\newcommand{\intSurf}{\oiint}
+\newcommand{\fVol}{\vec{f^{vol}}}
+\newcommand{\eBase}{(\vec{e_1}, \vec{e_2},\vec{e_3})}
+\newcommand{\eBasePrime}{\left(\vec{e'_1}, \vec{e'_2},\vec{e'_3}\right)}
+\newcommand{\kg}{\mathrm{kg}}
+\newcommand{\m}{\mathrm{m}}
+\newcommand{\s}{\mathrm{s}}
+
+%\cofoot{\footnotesize{\rm{Pascal Grange (August 2013)}} {\rm{\ttfamily{ pascal.grange@polytechnique.org}}}}
+
+
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+  \oldbibliography{#1}%
+  \setlength{\itemsep}{-1pt}%
+{\small
+\bibliography{bibfile}}
+}
+
+
+\usepackage[dvips]{color}
+\bibliographystyle{plain}
+
+\usepackage{graphicx}
+%\usepackage{pdfpages}
+%\usepackage{multicol}
+%\usepackage{pstricks,pst-grad}
+%\usepackage{epsfig}
+\usepackage{amsmath}
+
+%\usepackage{subfig}
+%\usepackage{tikz}
+%\usepackage{verbatim}
+\usepackage{amsmath}
+
+%\usepackage{array}
+%\pagestyle{scrheadings}
+
+\begin{document}
+%\maketitle
+% Title
+\title{
+\noindent\hrulefill
+\begin{flushleft}
+{\Large \bf{XJTLU, MTH308 (Cartesian tensors and mathematical models of solids and viscous fluids), Semester 2, 2015\\
+\vspace{8mm}
+\hrule
+\vspace{6mm}
+ Lecture 4, 24th March, 2015: Boundary conditions, statically admissible stress tensors}}
+\vspace{8mm}
+\hrule
+\vspace{6mm}
+{\Large{Pascal Grange\\
+Department of Mathematical Sciences\\
+{\ttfamily{pascal.grange@xjtlu.edu.cn}}\\
+}}
+\noindent\hrulefill
+\end{flushleft}}
+\date{}
+\author{}
+\maketitle
+%\noindent\hrulefill
+\vspace{-3mm}
+
+{\bf{Keywords}}. Interfaces, boundary conditions, hydrostatic pressure, statically admissible stress tensors.\\
+\vspace{3mm}
+
+\tableofcontents
+ 
+\vspace{12mm}
+
+
+So far we only considered continuous media that fill {\emph{the entire space}}. We studied 
+ forces on {\emph{test surfaces}} inside the continuous medium. We concluded that there 
+ exists a stress tensor $\sigma(\vec{x})$ at every point inside a continuous medium, and we related 
+ $\sigma$ to the volume forces via a system of three PDEs.\\
+
+
+We want to extend this analysis 
+ to media with a boundary, and with external forces applied to this boundary (external forces). 
+ This will give us boundary conditions for the PDEs.\\
+
+ This lecture will enable us to decide whether a given stress tensor $\sigma(\vec{x})$ is 
+ compatible with balance equations for a given configuration of volume and external forces.\\
+
+ 
+
+
+
+\section{An example of stress tensor: the hydrostatic pressure}
+
+Consider a static ocean, submitted to gravity on the surface of the 
+ Earth (neglect the curvature of the Earth), assume that the density of water 
+ is uniform ($\rho(\vec{x}) = 10^3  \kg.\m^{-3}$), hence the volume forces
+ per unit volume in the sea are expressed as:
+\begin{equation}
+\fVol =-  \rho g \vec{e_3}.
+\end{equation} 
+where $g = 9.8 \m.\s^{-2}$, and $\eBase$ is an orthonormal base with $\vec{e_3}$ the vertical vector pointing
+ upwards.\\
+
+ The force acting on a closed test surface inside the ocean (think of a cube) is normal
+ to the surface (hence the name pressure), and does not depend
+ on the orientation of the surface, which we express by assuming there exists
+ a positive function $P$ such that the stress tensor 
+  $\sigma$  has the following form (such an isotropic diagonal tensor is sometimes called a hydrostatic
+ tensor):\\
+ \begin{equation}
+ \sigma_{ij}(\vec{x}) n_j(\vec{x}) \vec{e_i} = -P(\vec{x}) \vec{n}, 
+ \end{equation}
+  where $P$ is the pressure of the water, a positive function which we have to compute.\\
+ In tensor form we have $\sigma_{ij} = -P \delta_{ij}$,
+ hence the equilibrium equation inside the water 
+\begin{equation}
+ \fVol + \frac{\partial \sigma_{ij}}{\partial x_j}\vec{e_i} = \vec{0}.
+\end{equation}
+ The three components of this vector equation are the following:
+\[ 
+ \left\{\begin{array}{l l }
+0& =  - \frac{\partial P}{\partial x_1}\\
+0 &= - \frac{\partial P}{\partial x_2}\\
+0 & = -\rho g -\frac{\partial P}{\partial x_3}\\
+\end{array}
+\right.
+\]
+ The first two equations imply that $P$ only depends on $x_3$, and the third equation
+ can be solved immediatly to show that the pressure is a linear 
+ function of the depth, but we 
+ need an integration constant $K$, which is the 
+ value of the pressure at the surface of the water:
+\begin{equation}
+P(x_1,x_2,x_3 ) = -\rho g x_3 + K.
+\end{equation} 
+ To characterize the stress tensor completely, even in this very simple case,
+ we need boundary conditions expressing the equilibrium of our continuous
+ medium at the interface with other media (the atmosphere in this case),
+ that can act on the medium through surface forces.
+ In the next section we address this problem in full generality.
+
+
+\section{Boundary conditions}
+
+In a more general setting, let $\mathcal{V}$ be a 
+ volume occupied by a contiunous medium. Its boundary 
+ is denoted by $\partial \vol$. On part of the boundary, surface
+ forces can be applied by an operator. Let $\vec{F}(\vec{x})$ denote the
+ force by surface unit applied at a point $\vec{x}$ on the boundary $\partial\vol$.
+ Let us denote by $\partial_{F}\vol$ the domain of $\partial\vol$ where 
+ $\vec{F}$ is defined. The balance between volume
+ forces and surface forces on $\vol$ is expressed in global form as follows:\\
+ \begin{equation}
+\vec{0} = \intVol_{vol} \fVol(\vec{x}) dV   + \iint_{\partial\vol -\partial_{F}\vol} \sigma_{ij}(\vec{x})n_j(\vec{x})\vec{e}_i dS+ \iint_{\partial_{F}\vol} \vec{F}(\vec{x}) dS,
+ \end{equation}
+ where $\vec{n}(\vec{x})$ is the unit  normal vector to the surface $\partial \vol$ at $\vec{x}$ pointing towards the exterior.
+Let us add and subtract the integral of $\sigma_{ij}(\vec{x})n_j(\vec{x})\vec{e}_i $ on $\partial_F\vol$, which allows
+ us to recognize an integral term on the closed surface $\partial\vol$:
+\[
+   \begin{array}{l l }
+\vec{0}   = &   \intVol_{\vol} \fVol dV   + \iint_{\partial\vol -\partial_{F}\vol} \sigma_{ij} n_j \vec{e}_i dS +
+                 \iint_{\partial_{F}\vol} \sigma_{ij} n_j(\vec{x})\vec{e}_i dS - \iint_{\partial_{F}\vol} \sigma_{ij}n_j \vec{e}_i dS  + \iint_{\partial_{F}\vol} \vec{F} dS \\
+    =&  \intVol_{\vol} \fVol dV   + \intSurf_{\partial\vol\rightarrow {\mathrm{ext}}} \sigma_{ij} n_j \vec{e}_i dS - \iint_{\partial_{F}\vol} \sigma_{ij} n_j \vec{e}_i dS  + \iint_{\partial_{F}\vol} \vec{F}  dS,
+   \end{array}
+\]
+ where for brevity the dependences of the integrands in $\vec{x}$ have not been written. 
+The first two terms sum to zero, as they express the equilibrium of 
+ the continuous medium in $\vol$, with an infinitely thin slice of continuous medium 
+ covering it on $\partial_{F}\vol$:
+\begin{equation}
+\vec{0}   =   \intVol_{\vol} \fVol dV   + \intSurf_{\partial\vol\rightarrow {\mathrm{ext}} } \sigma_{ij} n_j \vec{e}_i dS,
+\end{equation}
+hence the equilibrium of  $\vol$ with the surface force $\vec{F}$  is written as 
+\begin{equation}
+\vec{0} = - \iint_{\partial_{F}\vol} \sigma_{ij} n_j \vec{e}_i dS  + \iint_{\partial_{F}\vol} \vec{F}  dS.
+\end{equation}
+ As this equation holds for any subset $\partial_{F}\vol$ of $\partial\vol$, it holds
+ in the limit where $\partial_{F}\vol$ is an elementary surface centered on $\vec{x}$, and 
+ we obtain the local boundary condition:\\
+\begin{equation}
+ \sigma_{ij} (\vec{x}) n_j(\vec{x}) \vec{e}_i = \vec{F}(\vec{x}),\;\;\;\forall \vec{x} \in \partial_F\vol.
+ \label{boundaryCond}
+\end{equation}
+
+ {\bf{Example (hydrostatic pressure, continued).}} Let us come back to our problem of hydrostatic 
+ pressure in the sea. The boundary is the entire horizontal surface  
+ of equation $x_3=0$ at equilibrium with the atmosphere:
+\begin{equation}
+ \partial \vol = \left\{ (x_1, x_2,0), x_1 \in {\mathbf{R}}, x_2\in {\mathbf{R}}\right\}.
+ \end{equation}
+ Let us assume the atmospheric pressure $P_{atm}$ is uniform on the 
+ surface ($P_{atm}=10^5\;{\mathrm{Pa}}$) for instance. The force on the sea per unit surface
+ of the boundary is therefore:
+\begin{equation}
+\vec{F} = -P_{atm} \vec{e_3}.
+\end{equation}
+ On the boundary, the unit normal vector pointing towards the exterior of the sea is $\vec{n} = \vec{e_3}$.
+ The boundary conditions \ref{boundaryCond} are therefore expressed as follows:\\
+\begin{equation}
+ - ( -\rho g  \times 0 + K)  \vec{e_3}  = -P_{atm} \vec{e_3}.
+\end{equation}
+ i.e. $K= P_{atm}$ and we find that the expression:
+\begin{equation}
+ P(x_1,x_2,x_3) = -\rho g x_3 + P_{atm},
+\end{equation}
+ and we notice that the pressure is continuous at the surface (which we 
+ could have written on physical grounds without developing, this general formalism
+ but we can see in this very simple case that our tensor-based 
+ machinery gives the correct results).
+
+
+\section{General conclusion: statically admissible stress tensors}
+We can now summarize our balance laws on continuous media
+  in terms of conditions on the stress tensor. If 
+  a continuous medium  occupies a volume $\mathcal{V}$ and if the following 
+ forces act on it:\\
+-  volume forces $\fVol$ per volume unit in $\vol$,
+-  specified surface forces $\vec{F}$ per surface unit on a subset $\partial_{F}\vol$ (the forces 
+ may not be specified on the entire boundary $\partial_{F}\vol$),
+ then the continous medium is at equilibrium if the stress tensor verified the following equations:
+\[ 
+ \left\{\begin{array}{l l }
+\vec{0}& = \fVol(\vec{x}) + \frac{\partial \sigma_{ij}(\vec{x})}{\partial x_j} \vec{e_i},\;\;\; \forall \vec{x} \in \vol\\
+\vec{F}(\vec{x}) &= \sigma_{ij} (\vec{x}) n_j(\vec{x})\vec{e_i},\;\;\;\forall \vec{x} \in \partial_{F}\vol
+\end{array}
+\right.
+\]
+where $\vec{n} = n_j( \vec{x}) \vec{e}_j$ is the normal vector to the boundary of $\vol$, pointing
+ towards the exterior. \\
+These equations (PDEs with boundary conditions) express the fact that the sum of forces on the 
+ medium equal zero. Moreover, the tensor $\sigma$ is symmetric (which is a consequence of the 
+ equilibrium of angular momenta).\\
+
+ The set of {\emph{statically admissible stress tensors}} is defined as follows:
+\begin{equation}
+\boxed{\Sigma_{stat}(\vol, \fVol, \vec{F}) = \left\{   \sigma/ \sigma_{ij}(\vec{x}) =  \sigma_{ji}(\vec{x}),\;\;
+\fVol(\vec{x}) + \frac{\partial \sigma_{ij}(\vec{x})}{\partial x_j} \vec{e_i} = \vec{0}\; {\mathrm{in}} \;\vol, \;{\mathrm{and}}\;
+\vec{F}(\vec{x})= \sigma_{ij} n_j(\vec{x}) \vec{e_i} \;\; {\mathrm{on}}\;\; \partial_{F}\vol\right\}.}
+\end{equation}
+ 
+
+
+
+
+
+\end{document}

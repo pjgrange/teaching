@@ -1,0 +1,295 @@
+%\documentclass[12pt]{article}
+%\documentclass[a4paper, 12pt]{scrartcl}
+%\voffset=-0.9in
+%\hoffset=-0.6in
+\documentclass[DIV=12]{article}
+\setlength{\textheight}{9.1in}
+\setlength{\textwidth}{7in} 
+\usepackage[margin=1.1in]{geometry}
+%\usepackage[justification=justified,singlelinecheck=off]{caption}
+
+
+%\cofoot{\footnotesize{\rm{Pascal Grange (August 2013)}} {\rm{\ttfamily{ pascal.grange@polytechnique.org}}}}
+
+
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+  \oldbibliography{#1}%
+  \setlength{\itemsep}{-1pt}%
+{\small
+\bibliography{bibfile}}
+}
+
+
+\usepackage[dvips]{color}
+\bibliographystyle{plain}
+
+\usepackage{graphicx}
+%\usepackage{pdfpages}
+%\usepackage{multicol}
+%\usepackage{pstricks,pst-grad}
+%\usepackage{epsfig}
+\usepackage{amsmath,esint,amssymb}
+
+%\usepackage{subfig}
+%\usepackage{tikz}
+%\usepackage{verbatim}
+\usepackage{amsmath}
+
+%\usepackage{array}
+%\pagestyle{scrheadings}
+
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+\newcommand{\eBase}{(\vec{e_1}, \vec{e_2},\vec{e_3})}
+\newcommand{\eBasePrime}{\left(\vec{e'_1}, \vec{e'_2},\vec{e'_3}\right)}
+\newcommand{\maxX}{12}
+\newcommand{\maxY}{12}
+\newcommand{\vol}{\mathcal{V}}
+\newcommand{\surf}{{\mathcal{S}}}
+\newcommand{\sExt}{{{\mathcal{S}}\rightarrow{\mathrm{ext}}}}
+\newcommand{\intVol}{\iiint}
+\newcommand{\intSurf}{\oiint}
+\newcommand{\fVol}{\vec{f^{vol}}}
+\newcommand{\kg}{\mathrm{kg}}
+\newcommand{\m}{\mathrm{m}}
+\newcommand{\cm}{\mathrm{cm}}
+\newcommand{\s}{\mathrm{s}}
+\newcommand{\Pa}{\mathrm{Pa}}
+\newcommand{\GPa}{\mathrm{GPa}}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\whatIf}{\operatornamewithlimits{=}}
+
+
+
+\begin{document}
+
+\title{
+\noindent\hrulefill
+\begin{flushleft}
+{\Large \bf{XJTLU, MTH308 [Cartesian tensors and mathematical models of (elastic) solids and viscous fluids], Semester 2, 2014\\
+\vspace{8mm}
+\hrule
+\vspace{6mm}
+ Lecture 6, 7th April 2015: the Navier equations of linear elasticity}}
+\vspace{8mm}
+\hrule
+\vspace{6mm}
+{\Large{Pascal Grange\\
+Department of mathematical sciences\\
+{\ttfamily{pascal.grange@xjtlu.edu.cn}}\\
+}}
+\noindent\hrulefill
+\end{flushleft}}
+\date{}
+\author{}
+\maketitle
+%\noindent\hrulefill
+\vspace{-9mm}
+ 
+{\bf{Keywords}}. Navier equation, elasticity, spherical shell.\\
+\vspace{3mm}
+
+\tableofcontents 
+
+\vspace{8mm}
+
+So far we introduced Hooke's  law as a material law for elastic solids,
+ but we have not solved the induced PDEs for displacement fields.
+ In this lecture we will write down these equations, called the Navier equations,
+ and study them with boundary conditions in a spherical geometry.
+ Throughout these notes, $\eBase$ denotes an orthonormal 
+ base of ${\mathbf{R}}^3$, and the position $\vec{x}$ 
+ of a point in space is described through associated Cartesian
+ coordinates defined by $\vec{x} = x_i \vec{e_i}$.
+
+\section{The Navier equations}
+
+We start with the balance equations
+\begin{equation}
+\vec{0} = \fVol + \frac{\partial \sigma_{ij}}{ \partial x_j} \vec{e_i}.
+ \label{balanceEq}
+\end{equation}
+and the material law relating the stress tensor to the deformation field $\vec{u} = u_i \vec{e_i}$,
+ in the regime of linear elasticity, i.e. when all components of $\vec{u}$ are very small.
+\begin{equation}   
+ \epsilon_{ij} = \frac{1 + \nu}{E } \sigma_{ij} - \frac{\nu}{E} (\Tr \sigma ) \delta_{ij},
+\end{equation}
+ where $\epsilon$ denotes the linearized strain tensor:
+\begin{equation}
+\epsilon_{ij} = \frac{1}{2} \left(  \frac{\partial u_i}{\partial x_j} + \frac{\partial u_j}{\partial x_i} \right).
+ \label{Hooke}
+\end{equation}
+We would like to express Eq. \ref{balanceEq} in terms of the field $\vec{u}$, so the first thing we have
+ to do is to 'invert' Hooke's law in order to express $\sigma$ as a function of $\epsilon$. Since Hooke's 
+ law is linear, this is easily done by taking the trace of both sides of Eq. \ref{Hooke}:\\
+\begin{equation}
+\Tr \epsilon = \frac{1+\nu}{E} \Tr \sigma - 3 \frac{\nu}{E} \Tr \sigma = \frac{1-2\nu}{ E } \Tr \sigma,
+\end{equation}
+ hence Hooke's law becomes
+ \begin{equation}
+  \sigma_{ij} = \frac{E}{1+\nu}\left(  \epsilon_{ij} + \frac{\nu}{ E} \Tr \sigma \delta_{ij}\right) =  \frac{E}{1+\nu} \epsilon_{ij}   + \frac{E\nu}{(1-2\nu)(1+\nu)}(\Tr \epsilon)\delta_{ij}.
+\end{equation}
+ It is usual to rewrite this equation in terms of the Lam\'e coefficients $\mu$ and $\lambda$ defined (note the factor of 2) as 
+ \begin{equation}
+  \sigma_{ij} = 2\mu \epsilon_{ij}+ \lambda (\Tr\epsilon) \delta_{ij},
+ \label{material}
+ \end{equation}
+from which we read off 
+ \begin{equation}
+\boxed{
+ \mu =   \frac{E}{2( 1+\nu)},\;\;\; \lambda =   \frac{E\nu}{(1-2\nu)(1+\nu)}.
+}
+\end{equation}
+To describe the elastic properties of a solid, one can either choose Young's modulus and Posson's ratio 
+ or the Lam\'e coefficients. Navier's equation are often written using the Lam\'e coefficients. Substituting the  
+ form of the material law written in Eq. \ref{material}, we obtain for all $i$ in $[1..3]$:\\
+\begin{equation}
+0 = f^{vol}_i + \mu \Laplace u_i + (\lambda+ \mu) \frac{\partial}{\partial x_i}\left( \frac{\partial u_k}{\partial x_k} \right),
+\end{equation}
+ which are called the Navier equations of linear elasticity.
+
+
+\section{Solution in the case of a spherical shell}
+\subsection{Explicit form of the Navier equations (with spherical symmetry)}
+Consider an elastic spherical shell (meaning the region  between concentric spheres of radius $R_1$ and $R_2$, with $R_1\leq R_2$, is filled with an
+ elastic material). A uniform pressure $P_2$ is applied on the outside, a uniform pressure $P_1$ is applied 
+ on the inside. Volume forces are neglected (or reather they have
+ been compensated by the reaction of some support in the reference configuration). The 
+ spherical shell contracts under the influence of the pressure. Compute the displacement fields.\\
+
+$\bullet$ {\bf{Use spherical symmetry.}} As we have a spherical symmetry (because of the spherical geometry and the uniform pressure), 
+ the displacement field will also have spherical symmetry, so we look for solutions of the form 
+\begin{equation}
+ \vec{u}( x_1,x_2, x_3 ) = \phi( \sqrt{x_i x_i} ) \vec{x},
+\end{equation}
+ where we expressed the coordinates in Cartesian form, in order to avoid having to look up 
+ the expression of differential operators in spherical coordinates. All we have to do is therefor to compute the function $\phi$.\\
+
+$\bullet$ {\bf{Work out all terms in the Navier equations in terms of the unknown function $\phi$.}} We have to solve the Navier equations
+\begin{equation}
+0 = \mu \Laplace u_i + (\lambda+ \mu) \frac{\partial}{\partial x_i}\left( \frac{\partial u_k}{\partial x_k} \right).
+\end{equation}
+ To that end, let us rewrite them as a set of three differential equations in the function $\phi$. We will 
+ need the expression of the derivatives of the displacement fields:
+\begin{equation}
+ \frac{\partial u_i}{\partial x_j} ( x_1,x_2, x_3 ) = \delta_{ij} \phi(\sqrt{x_k x_k}  )  + x_i \frac{\partial }{\partial x_j}(  \phi( \sqrt{x_k x_k} ) ) 
+=  \delta_{ij} \phi( \sqrt{x_k x_k}  )  + \frac{x_i x_j}{ \sqrt{x_k x_k} } \phi'( \sqrt{x_k x_k} ),
+\label{derivative}
+\end{equation}
+ from which we can compute the divergence of the displacement field needed in Navier's equations:
+\begin{equation}
+\frac{\partial u_k}{\partial x_k}  ( x_1,x_2, x_3 ) = 3\phi(  \sqrt{x_k x_k}) + \sqrt{x_k x_k} \phi'( \sqrt{x_k x_k}).
+\end{equation}
+ The second term in Navier's equation is obtained by taking one more derivative:
+\begin{equation}
+\frac{\partial}{\partial x_i}\left(\frac{\partial u_k}{\partial x_k}  \right)( x_1,x_2, x_3 )
+\end{equation}
+\begin{equation}
+= \frac{\partial}{\partial x_i} \left(3\phi(  \sqrt{x_k x_k}) + \sqrt{x_k x_k} \phi'( \sqrt{x_k x_k})\right) 
+\end{equation}
+\begin{equation}
+= 3\frac{x_i }{ \sqrt{x_k x_k} } \phi'( \sqrt{x_k x_k} )+ \frac{x_i }{  \sqrt{x_k x_k }}\phi'( \sqrt{x_k x_k}) +  \sqrt{x_k x_k} \frac{x_i}{ \sqrt{x_k x_k }}\phi''( \sqrt{x_k x_k})
+\end{equation}
+\begin{equation}
+= 4\frac{x_i }{ \sqrt{x_k x_k} } \phi'( \sqrt{x_k x_k} ) +  x_i\phi''( \sqrt{x_k x_k}).
+\label{divGrad}
+\end{equation}
+
+On the other hand, we can express the Laplacian term as follows:
+\begin{equation}
+\Laplace u_i = \frac{\partial}{\partial x_j}\left(\frac{\partial u_i}{\partial x_j}  \right)( x_1,x_2, x_3 ) = \frac{x_i}{\sqrt{x_k x_k}} \phi'( \sqrt{x_k x_k} ) + \frac{ 3 x_i + \delta_{ij} x_j}{ \sqrt{x_k x_k} } \phi'( \sqrt{x_k x_k} ) + x_i x_j \frac{\partial}{\partial x_j}\left(  \frac{1}{\sqrt{x_k x_k}}  \phi'( \sqrt{x_k x_k})\right),
+\end{equation}
+but 
+\begin{equation}
+ x_i x_j  \frac{\partial}{\partial x_j}\left(  \frac{1}{\sqrt{x_k x_k}}  \phi'( \sqrt{x_k x_k})\right) = - x_i x_j \frac{x_j}{ (x_k x_k )^{\frac{3}{2}}} \phi'( \sqrt{x_k x_k})
+ + x_i x_j   \frac{1}{\sqrt{x_k x_k}}\frac{x_j}{\sqrt{x_k x_k}}\phi''( \sqrt{x_k x_k} )
+\end{equation}
+\begin{equation}
+=- \frac{x_i}{\sqrt{x_k x_k}}  \phi'( \sqrt{x_k x_k})+ x_i\phi''( \sqrt{x_k x_k} ).
+\end{equation}
+Putting all the terms together we find exactly the same form for the Laplacian term as in Eq. \ref{divGrad}:
+\begin{equation}
+ \Laplace u_i = 4\frac{x_i }{ \sqrt{x_k x_k} } \phi'( \sqrt{x_k x_k} ) +  x_i\phi''( \sqrt{x_k x_k}),
+\end{equation}
+hence the Navier equations take the form:
+\begin{equation}
+0 = (\lambda + 2\mu) x_i \left( 4\frac{1 }{ \sqrt{x_k x_k} } \phi'( \sqrt{x_k x_k} ) + \phi''( \sqrt{x_k x_k} ) \right),
+\end{equation}
+ for all $i$ in $[1..3]$. These three equations are identical (up to a multiplication by $x_i$ so we obtain the following scalar differential equation 
+ for $\phi$:
+\begin{equation}
+0 = \frac{4}{r}\phi'(r) + \phi''( r ).
+\end{equation}
+We can look for solutions of the forl $\phi' = A r^{\alpha} + B$, and obtain $\alpha = -4$ and $B=0$. One more integration 
+ gives rise to 
+
+\begin{equation}
+\boxed{\phi( r ) = -\frac{A}{3 r^3}+C.}
+\end{equation}
+
+
+\subsection{Determination of the integration constants using boundary conditions}
+ We have to express the boundary conditions on the internal and external spheres using Hooke's law.
+ From our computations of derivatives of displacements (Eq. \ref{derivative}) we obtain:\\
+\begin{equation}
+\epsilon_{ij} =   \delta_{ij} \phi( x_1,x_2, x_3 )  + \frac{x_i x_j}{ \sqrt{x_k x_k} } \phi'( \sqrt{x_k x_k} ).
+\end{equation}
+whose trace gives us
+\begin{equation}
+ \Tr(\epsilon) = 3\phi + \sqrt{x_k x_k} \phi'( \sqrt{x_k x_k} ),
+\end{equation}
+which we can express in sperical coordinates as
+\begin{equation}
+ \Tr(\epsilon) = 3\phi + r \phi'( r ) = 3C
+\end{equation}
+ Consider the following two points, one on the internal sphere $\vec{a} = R_1 \vec{e_1}$, and one on 
+the outer sphere,  $\vec{a} = R_2 \vec{e_1}$. The outward-pointing unit normal vector to the shell
+ is $-\vec{e_1}$ at  $\vec{a}$ and  $+\vec{e_1}$ at  $\vec{b}$, hence
+\begin{equation}
+ \sigma_{ij} n_j \vec{e_i} = +P_1 \vec{e_1}\;\;
+ {\mathrm{on \;the \;inside}}, 
+\end{equation}
+and 
+\begin{equation}
+\sigma_{ij} n_j \vec{e_i} = -P_2 \vec{e_1}\;\;{\mathrm{on\;the\;outside.}} 
+\end{equation}
+
+ Using Hooke's law we therefore obtain (for components of indices $i=j=1$):
+\begin{equation}
+- P_1 =  2\mu\left( -2\frac{A}{3R_1^3} + C \right) + 3\lambda C,
+\end{equation}
+\begin{equation}
+-P_2 =  2\mu \left(-2 \frac{A}{3R_2^3} + C\right) + 3\lambda C.
+\end{equation}
+from which one obtains the constants:
+\begin{equation}
+\boxed{A = \frac{3(P_1 - P_2)R_1^3 R_2^3}{4\mu(R_2^3 - R_1^3) },}
+\end{equation}
+\begin{equation}
+\boxed{C = \frac{1}{3\lambda + 2\mu}\frac{P_1R_1^3 - P_2 R_2^3}{R_2^3 - R_1^3}.}
+\end{equation}
+
+
+
+
+\end{document}
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+to-do: 
+- biographical notices
+- uniaxial
