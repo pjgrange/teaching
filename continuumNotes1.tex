@@ -1,0 +1,531 @@
+%\documentclass[12pt]{article}
+%\documentclass[a4paper, 12pt]{scrartcl}
+%\voffset=-0.9in
+%\hoffset=-0.6in
+\documentclass[DIV=12]{article}
+\setlength{\textheight}{9.1in}
+\setlength{\textwidth}{7in} 
+\usepackage[margin=1.1in]{geometry}
+%\usepackage[justification=justified,singlelinecheck=off]{caption}
+
+\newcommand{\pubSpace}{\vspace{-0.3in}}
+\newcommand{\confSpace}{\vspace{-0.24in}}
+\newcommand{\respSpace}{\vspace{-0.2in}}
+\newcommand{\COffset}{C_{\mathrm{offset}}} 
+\newcommand{\rhoOffset}{\rho_{\mathrm{offset}}}
+\newcommand{\CPyr}{C^{\mathrm{pyr}}}
+
+%\cofoot{\footnotesize{\rm{Pascal Grange (August 2013)}} {\rm{\ttfamily{ pascal.grange@polytechnique.org}}}}
+
+
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+  \oldbibliography{#1}%
+  \setlength{\itemsep}{-1pt}%
+{\small
+\bibliography{bibfile}}
+}
+
+
+\usepackage[dvips]{color}
+\bibliographystyle{plain}
+
+\usepackage{graphicx}
+%\usepackage{pdfpages}
+%\usepackage{multicol}
+%\usepackage{pstricks,pst-grad}
+%\usepackage{epsfig}
+\usepackage{amsmath}
+
+%\usepackage{subfig}
+%\usepackage{tikz}
+%\usepackage{verbatim}
+\usepackage{amsmath}
+
+%\usepackage{array}
+%\pagestyle{scrheadings}
+
+\newcommand{\voxel}{{\mathrm{voxel}}}
+\newcommand{\gene}{{\mathrm{gene}}} 
+\newcommand{\type}{{\mathrm{type}}}
+\newcommand{\widthCoeff}{0.8}
+\newcommand{\visibleGreen}{green!50!black}
+
+\newcommand{\maxX}{12}
+\newcommand{\maxY}{12}
+
+%\newcolumntype{S}{>{\centering\arraybackslash} m{\widthCoeff\linewidth} }
+
+%\cofoot{\footnotesize{\rm{XJTLU, MTH308, 2014)}}}
+%\title{\Huge{Research statement}\\
+%    \vspace{3mm}
+%       \Large{Computational biology: data analysis tools in high dimensions}}
+%\author{Pascal Grange}
+%\date{}
+\begin{document}
+%\maketitle
+%\begin{flushleft}
+%\Large{\bf{Research statement: data analysis tools for computational biology in high dimensions}}\\
+%\large{\bf{Pascal Grange}}
+%\end{flushleft}\textsc{\LARGE University of Beer}\\[1.5cm]
+
+%\textsc{\Large Final year project}\\[0.5cm]
+
+% Title
+\title{
+\noindent\hrulefill
+\begin{flushleft}
+{\Large \bf{XJTLU, MTH308 (Cartesian tensors and mathematical models of solids and viscous fluids), Semester 2, 2015\\
+\vspace{8mm}
+\hrule
+\vspace{6mm}
+ Lecture 1, 3rd March 2015: from linear algebra to tensors}}
+\vspace{8mm}
+\hrule
+\vspace{6mm}
+{\Large{Pascal Grange\\
+Department of mathematical sciences\\
+{\ttfamily{pascal.grange@xjtlu.edu.cn}}\\
+}}
+\noindent\hrulefill
+\end{flushleft}}
+\date{}
+\author{}
+\maketitle
+%\noindent\hrulefill
+\vspace{-3mm}
+
+{\bf{Keywords.}} Linear algebra, vectors, matrices, scalar product, change of orthonormal bases,
+ transformation matrix, tensor, isotropic tensors.\\
+\vspace{3mm}
+
+\tableofcontents
+
+\clearpage
+\section{Tensors and continuous media: motivations and history}
+
+ Systems of coordinates are mathematical structures used to describe the properties
+ of physical systems in a quantitative way. They depend on the choice of the person who
+ designs the model (for example, a certain choice of axes can make computations easier).
+ However, the physical results should not depend on the choice of coordinates.\\
+
+  
+$\bullet$ {\bf{This independence induces transformation laws on certain quantities.}}
+ If one changes the system of coordinates, the quantities we write change as 
+well, but they must do so in a precise way in order for the physical reality to stay the same.
+ Tensors are quantities defined by the way they transform when the system of coordinates changes.
+ The word {\emph{Cartesian}}\footnote{from the name of Ren\'e Descartes (1596-1650). Under his influence,
+ numbers started being used to describe geometric objects. His name is attached to the laws of geometric optics.} refers to the fact that one considers systems of coordinates in which the three axes form an orthogonal base.\\
+
+
+$\bullet$ {\bf{Continuous media: solids and viscous fluids.}} We are interested in 
+ scales at which the (discrete, atomic, molecular\footnote{Let us mention that tensors are used
+ for other purposes in atomic and subatomic physics, to address symmetry properties of particles.}) microscopic structure of matter is not apparent :
+ distances are large in scale of the size of molecules, and
+ we will treat solids and fluids as continuous media on which we will put coordinates just as if we were
+ on a geometric space. The mathematical framework 
+ of continuous media was developed before  atomic and molecular physics (for example Euler's equation for the mechanics of fluids was written in 1755\footnote{Leonhard Euler (1707-1783) founded the discipline of fluid mechanics, and contributed in a 
+decisive way to all branches of mathematics.}).
+ At macroscopic scales it is still valid, because the huge numbers of microscopic constituents
+ have interactions that result in collective behaviours that can be described at larger scales
+ by a relatively small number of parameters (such as elasticity coefficients and density). These
+ parameters are to be determined experimentally, but this course will introduce the mathematical 
+framwork that can be described for all continuous media (fluids and solids).
+
+
+%Franklin, Rayleigh
+
+%\vspace{1mm}
+%\begin{figure}
+%\centering
+%\includegraphics[height=1in,width=1in,angle=0,keepaspectratio]{maisonHuntingtonFondLaque.jpg}
+%\caption{This is a figure.}
+%\end{figure}
+
+
+\section{Elements of linear algebra, notations and conventions}
+Unless otherwise stated, we will assume in this course that the ambient space
+ is  the three-dimensional space $\mathbf{R}^3$. This section 
+ recalls a few notions of linear algebra and introduces notations.\\
+%\subsection{Linear algebra: vectors and matrices}
+
+Let $(\vec{e_1}, \vec{e_2}, \vec{e_3})$ be an orthonormal 
+ of $\mathbf{R}^3$.
+ Let $O$ be the origin of a coordinate system. Let $M$ be a point in $\mathbf{R}^3$.
+ It can be described by its coordinates $(x_1,x_2,x_3)$, the three numbers 
+such that the vector $\vec{OM}$ is written as follows:
+\begin{equation}
+\overrightarrow{OM} = x_1\vec{e_1}+ x_2\vec{e_2}+x_3\vec{e_3}.
+\end{equation}
+
+\subsection{Notations: summing over repeated indices}
+
+{\bf{Notation.}} You are familiar with the notation $\Sigma$ for sums, which saves space:
+\begin{equation}
+\overrightarrow{OM} = \sum_{i=1}^3 x_i\vec{e_i}.
+\label{sumVec}
+\end{equation}
+In tensor algebra, it is customary to omit the $\Sigma$ symbol
+ {\emph{when an index is summed over and appears twice and only twice in an expression}}:
+\begin{equation}
+\overrightarrow{OM} =  x_i\vec{e_i}.
+\label{contracVec}
+\end{equation}
+ The range of the index $i$ is not specified anymore (whereas
+ in Eq. it was specified that $i$ ranges from $1$ to $3$. So, when
+ an index appears twice in an expression, it is implied 
+that it corresponds to a sum over all possible values of this index.
+ Since the base $(\vec{e_1},\vec{e_2},\vec{e_3})$ has three vectors,
+ the sum in Eq. \ref{contracVec} is over $i=1,i=2,i=3$.\\
+
+ \vspace{3mm}
+{\bf{Remark (mute indices).}} If an index is summed over, it is called a {\emph{mute}} index.
+ It takes all possible values, one per term in the sum, and does not {\emph{say}} 
+ anything about the components of the result: the result does not have this index. One can therefore 
+ use another symbol for it without changing the value of the 
+sum. For example in $\vec{x} = x_i \vec{e_i}$, the index $i$ is a mute index,
+and one can as well write $\vec{x} = x_k \vec{e_k}$.\\ 
+
+This notation can be used for indices in matrices as well.
+From linear algebra, you are already familiar with matrices.
+ Matrices have two indices, one for rows and one for columns.
+ Given the base $(e)=(\vec{e_1},\vec{e_2},\vec{e_3})$, and 
+ a linear application $u$ from $\mathbf{R}^3$ to $\mathbf{R}^3$,
+ a matrix $U$ can be used to represent the 
+ action of $u$ in the base $(e)$:\\
+
+%tableaux
+%http://fr.wikibooks.org/wiki/LaTeX/%C3%89crire_des_math%C3%A9matiques
+\[
+U= {\mathrm{Mat}}(u, (e))=  \left(
+   \begin{array}{l l l}
+      U_{11}  & U_{12} & U_{13} \\
+      U_{21}   & U_{22} & U_{23}\\
+      U_{31} & U_{32} & U_{33}
+   \end{array}
+   \right)
+\]
+
+\begin{equation}
+u\left( \sum_{i=1}^3 x_i \vec{e_i}\right) = \sum_{j=1}^3\left(\sum_{k=1}^3 U_{jk} x_k\right) \vec{e_j}
+\label{imVec}
+\end{equation}
+The expression \ref{imVec} contains two indices ($j$ and $k$) that appear 
+twice each, and are summed over. The sum convention on repeated indices 
+ can be applied to rewrite the expression as follows:
+\begin{equation}
+u( x_i \vec{e_i}) =  U_{jk} x_k \vec{e_j}.
+\label{imVecContracted}
+\end{equation}
+
+%{\bf{Exercise.}} Write down the matrix of a rotation of axis $\vec{e3}$ 
+
+
+
+
+%{\bf{Exercise.}} Consider the expression 
+%\begin{equation}
+%V= \sum_{i=1}^3 b_i \sum_{k=1}^3 c_{ik}d_{kj}.
+%\label{VEx}
+%\end{equation}
+%Rewrite it using the convention we have just defined. On
+ %how many indices does $V$ depend?
+
+
+\subsection{Scalar product, Kronecker symbol}
+%where $\widehat{\vec{x},\vec{y}}$ is the angle between the two vectors.
+%If $(\vec{e_1},\vec{e_2},\vec{e_3})$ is an orthonormal basis, and if $i$ and $j$ 
+% are two indices between 1 and 3, we have
+%the following:
+ Let $(e)=(\vec{e_1},\vec{e_2},\vec{e_3})$ be an orthonormal base. The scalar 
+ products between pairs of vectors in the base is as follows:
+\begin{equation}
+ \vec{e_i}.\vec{e_j} = \delta_{ij}.
+\end{equation}
+ for which one used the special notation $\delta_{ij}$ (or Kronecker symbol):
+
+\[
+\left\{
+   \begin{array}{l l}
+      \delta_{ij} = 1\;\mathrm{if}\; i=j,\\
+      \delta_{ij} = 0\;\mathrm{if}\;i\neq j
+   \end{array}
+ \right.
+\]
+
+The (Euclidean) scalar product (or dot-product) 
+ between two vectors $x=x_ i\vec{e_i}$ and $y=y_i \vec{e_i}$ 
+ is denoted by a dot, which is a bilinear operation:
+\begin{equation}
+\vec{x}.\vec{y} = (x_i \vec{e_i}).(y_j \vec{e_j}) = x_i y_j\delta_{ij} = x_iy_i.
+\end{equation}
+ %We can write the dot-product of vectors $x$ and $y$ if we
+%know their coordinates in an orthonormal base. If $\vec{x}=x_ie_i$
+ %and $\vec{y}=y_i\vec{e_i}$
+{\bf{Remark.}} Whenever repeated indices are summed over, a Kronecker symbol
+ can be inserted (with a new index symbol) without changing the value of the expression:
+\begin{equation}
+ x_i y_i = x_i \delta_{ij} y_j.
+\end{equation}
+ This trick will be used in the next section when we prove that the scalar product
+ is invariant unde change of orthonormal base.
+
+
+
+\section{Transformation rules from changes of orthonormal base}
+\subsection{Transformation of vectors}
+ Consider two different orthonormal bases of ${\mathbf{R}}^3$, 
+ denoted by $(e')=(\vec{e_1},\vec{e_2},\vec{e_3})$ and  $(e') = (\vec{e'_1},\vec{e'_2},\vec{e'_3})$.
+ Consider a vector $\vec{x}$ in ${\mathbf{R}}^3$. Let us write the coordinates
+ of this vector in these two bases:
+\begin{equation}
+\vec{x} = x_i\vec{e_i},\;\;\; \vec{x} = x'_i\vec{e'_i}.
+\label{coordsOfx}
+\end{equation}
+Since the base $(e)$  is orthonormal, one can decompose the vectors
+$(e'_1, e'_2,e'_3)$ over this base by taking dot-products:
+\begin{equation}
+\forall i \in [1..3],\;\; \vec{e'_i} = (\vec{e'_i}, \vec{e_j}) \vec{e_j}.
+\label{decompEq} 
+\end{equation}
+ Let us substitute the expression \ref{decompEq} in the expression of 
+$\vec{x}$ in Eq. \ref{coordsOfx}:
+\begin{equation}
+\vec{x} = x_i\vec{e_i},\;\;\; \vec{x} = x'_i (\vec{e'_i},\vec{e_j}) \vec{e_j}.
+\label{coordsOfx}
+\end{equation}
+ Now we have two expressions for the vector $\vec{x}$
+ in the same base $(e)$. Hence the coordinates must be equal.
+There are two mute indices in the second expression of 
+ $x$, and we can change the symbols in order to have the symbol  $\vec{e_i}$ 
+ at the end:
+\begin{equation}
+\vec{x} = x_i\vec{e_i},\;\;\; \vec{x} = x'_k (\vec{e'_k},\vec{e_j}) \vec{e_j} =  x'_k (\vec{e'_k},\vec{e_i}) \vec{e_i}.
+\label{coordsOfx}
+\end{equation}
+Let us write the equality of the components of the vector $\vec{x}$:
+\begin{equation}
+ x_i = x'_k (\vec{e'_k}.\vec{e_i}).
+\label{anciennesNouvelles}
+\end{equation}
+ The r.h.s. of Eq. \ref{anciennesNouvelles} can be rewritten as the action
+of a square matrix denoted by $P$ (the transformation matrix) on the coordinates $(x'_1,x'_2,x'_3)$:
+\begin{equation}
+ \boxed{x_i = P_{ik}x'_k,}
+\label{anciennesNouvelles}
+\end{equation}
+where 
+\begin{equation}
+\boxed{P_{ik} = \vec{e'_k}.\vec{e_i}.}
+\end{equation}
+
+{\bf{Proposition.}} {\emph{The inverse of the transformation matrix $P$ is its  transpose.}}\\
+
+{\bf{Proof.}} Consider the product of $P$ and its transpose $P^T$:\\
+\begin{equation}
+(PP^T)_{ij} =  P_{ik}(P^T)_{kj} =P_{ik}P_{jk} = (\vec{e'_k}.\vec{e_i})(\vec{e'_k}.\vec{e_j}) = (\vec{e'_l}.\vec{e_i})\delta_{lp}(\vec{e'_p}.\vec{e_j}),
+\end{equation}
+where we have inserted the Kronecker symbol to rewrite the sum over repeated indices. Let us now rewrite 
+ the Kronecker symbol as the dot-product of two vectors of an orthonormal base:
+\begin{equation}
+\delta_{lp}= (e'_l.e'_p).
+\end{equation}
+Hence
+\begin{equation}
+(PP^T)_{ij} = (\vec{e'_l}.\vec{e_j})(\vec{e'_l}.\vec{e'_p})(\vec{e'_p}.\vec{e_j}) = (\vec{e_i}.\vec{e'_l})(e'_l.e'_p)(\vec{e_j}.e'_p)=
+ \left((\vec{e_i}.\vec{e'_l})\vec{e'_l}\right). \left((\vec{e_j}.\vec{e'_p}) \vec{e'_p}\right)
+\end{equation}
+where we have used the symmetry of the dot-product. Since $(e')$ is an orthonormal base, we have
+\begin{equation}
+ \vec{e_i} = (\vec{e_i}.\vec{e'_l})\vec{e'_l},\;\;{\mathrm{and}}\;\; \vec{e_j} = (\vec{e_j}.\vec{e'_p}) \vec{e'_p}.
+\end{equation}
+Hence\\
+\begin{equation}
+\boxed{
+(PP^T)_{ij} =(\vec{e_i},\vec{e_j}) =  \delta_{ij}.
+}
+\label{PPtrans}
+\end{equation}
+\vspace{3mm}
+Hence the inverse of the matrix $P$ is its transpose:
+\begin{equation}
+(PP^T) = I_3,\;\;\; P^TP = I_3.
+\label{PPtrans}
+\end{equation}
+ We can use this property to obtain an expression of the coordinates $x'$ in terms of the 
+coordinates $x$, simply by multiplying both sides of Eq. \ref{anciennesNouvelles} by 
+ $P_{ij}$ (and summing over index $i$):
+\begin{equation}
+ P_{ij}x_i = P_{ij}P_{ik}x'_k = (P^t)_{ji} P_{ik} x'_k = (P^T P)_{jk} x'_k = \delta_{jk} x'_k = x'_j,
+\label{anciennesNouvellesPre}
+\end{equation}
+Hence
+\begin{equation}
+\boxed{x'_i =  P_{ji}x_j.}
+\label{nouvellesAnciennes}
+\end{equation}
+
+
+{\bf{Exercise.}} Verify that the norm of a vector and the scalar product of two vectors are invariant under a change of orthonormal base.\\
+
+{\bf{Solution.}} Let us use the same notations as a above. The norm of the vector $\vec{x}$ expressed using the coordinates
+  $(x_1,x_2,x_3)$ is $\sqrt{x_i x_i}$. Using the new coordinates it is expressed as $\sqrt{x'_i x'_i}$. Let us use
+ Eq. \ref{anciennesNouvelles} to write these two expressions in the same system of coordinates:
+\begin{equation}
+x_i x_i =  P_{ik}x'_k P_{il}x'_l 
+ \label{normComp}
+ \end{equation}
+The expression $P_{ik}P_{il}$ can be rwritten as  $(P^T)_{ki}P^T_{il} = (P^TP)_{kl} = \delta_{kl}$.
+We therefore have
+\begin{equation}
+x_i x_i =  \delta_{kl}x'_k x'_l = x'_k x'_k.
+ \label{normComp}
+\end{equation}
+As the indices $i$ and $k$ are mute in the above expression, the two quantities 
+ are equal, and the norm of $x$ is invariant under a change of orthonormal base.\\
+As for the scalar product of two vectors $x$ and $y$, we can use the same property to prove the invariance under
+change of orthonormal base:\\
+\begin{equation}
+x_i y_i = P_{ik}x'_k P_{il}y'_l = (P^T)_{ki}P_{il} x'_k y'_l =  (P^TP)_{kl}  x'_k y'_l= \delta_{kl} x'_k y'_l = x'_k y'_k.
+\label{normExp}
+\end{equation}
+
+
+\subsection{Transformation of matrices}
+
+ Consider the matrix $U$ of a linear application from $\mathbf{R}^3$ to $\mathbf{R}^3$,
+ presented in an orthonormal base $(e) = (\vec{e_1},\vec{e_2},\vec{e_3})$:
+\begin{equation}
+U = \mathrm{Mat}( u, (e) ) =  \left(
+   \begin{array}{l l l}
+      U_{11}  & U_{12} & U_{13} \\
+      U_{21}   & U_{22} & U_{23}\\
+      U_{31} & U_{32} & U_{33}
+   \end{array}
+   \right).
+\end{equation}
+ For $i$ in $[1..3]$, the image of vector $e_i$ can be written in the base $(e)$ using
+ the entries in the $i$-th row of the matrix $U$:
+\begin{equation}
+ u( e_i) = U_{i1}e_1 + U_{i2}e_2 + U_{i3}e_3 = U_{ij}e_j.
+\label{matEq}
+\end{equation}
+ Consider another orthonormal base $(e') = (\vec{e'_1},\vec{e'_2},\vec{e'_3})$.
+We want to compute the matrix of $u$ in the base $(e')$. Let us call this 
+ matrix $U'$:
+\begin{equation}
+U' = \mathrm{Mat}( u, (e') ) =  \left(
+   \begin{array}{l l l}
+      U'_{11}  & U'_{12} & U'_{13} \\
+      U'_{21}   & U'_{22} & U'_{23}\\
+      U'_{31} & U'_{32} & U'_{33}
+   \end{array}
+   \right)
+\end{equation}
+Again, by defnition of the matrix representation of linear applications
+in base $(e')$, we have
+\begin{equation}
+ u( \vec{e'_i}) = U'_{i1}\vec{e'_1}+ U'_{i2}\vec{e'_2} + U'_{i3}\vec{e'_3} = U'_{ia}\vec{e'_a}.
+\label{eqPrime}
+\end{equation}
+We are going to express both the l.h.s. and the r.h.s of Eq. \ref{eqPrime} on the base $(e)$.\\
+The l.h.s of Eq.  \ref{eqPrime} can be rewritten as follows:
+\begin{equation}
+ u( \vec{e'_i}) = u( (\vec{e'_i}, \vec{e_a}) \vec{e_a} ) =  (\vec{e'_i}, \vec{e_a}) u( \vec{e_a}) = (\vec{e'_i}, \vec{e_a}) U_{ak} \vec{e_k} = P_{ai}U_{ak}\vec{e_k}.
+\label{lhs}
+\end{equation}
+where we used the linearity of $u$ in the second equality, 
+ and Eq. \ref{matEq} in the third equality.\\
+The r.h.s of Eq.  \ref{eqPrime} can be rewritten as follows:
+ \begin{equation}
+ U'_{ia}\vec{e'_a} = U'_{ia}(\vec{e'_a}, \vec{e_k}) \vec{e_k} = U'_{ia}P_{ka}\vec{e_k}. 
+\label{rhs}
+\end{equation}
+As $(e)$ is a base of $\mathbf{R}^3$, the coefficients of $\vec{e_k}$
+ in \ref{lhs} and \ref{rhs} must be equal for all $k$:
+\begin{equation}
+U'_{ia}P_{ka} = P_{ai}U_{ak}.
+\label{trans1}
+\end{equation}
+Since the inverse of the transformation matrix $P$ is its transpose $P^T$,
+ we can multiply both sides by $P_{kj}$ and get rid of all $P$ symbols on the 
+ l.h.s.:
+\begin{equation}
+ U'_{ia}P_{ka}P_{kj} = P_{ai}U_{ak} P_{kj}.
+\end{equation}
+Since $P_{ka}P_{kj} =(P^T)_{ak}P_{kj}  = (P^TP)_{aj} = \delta_{aj}$, we
+have
+\begin{equation}
+ \boxed{U'_{ij} = P_{ai}P_{kj}U_{ak}.}
+\label{matriceNouvelle}
+\end{equation}
+
+
+  
+\section{Definition of tensors}
+ Cartesian tensors are mathematical objects with components in a given orthonormal base.
+  They carry a certain number of indices (the number of indices is called the order of the tensor), 
+ which can be used to act on vectors by summing over indices. When the orthonormal base is changed, the components 
+ of Cartesian tensors are transformed using transformation matrices.\\
+
+
+We have seen examples of low order:\\
+- scalars have no indices, they are invariant under change of base. They are called tensors of order zero (physical examples
+ are mass and temperature). They are called tensors of order 0.\\
+- vectors have one index, they tansform as in Eq. \ref{anciennesNouvelles} under change of base (physical examples include
+ velocities). They are called tensors of order 1.\\
+- matrices have two indices, they. Physical examples include the stress tensor will be introduced in this course. They are called 
+ tensors of order 2.\\
+By generalizing the transformation pattern of Eqs. \ref{nouvellesAnciennes} and \ref{matriceNouvelle},
+ one defines a tensor $T$ of order $n$ to have $n$ indices, with the transformation rule of the entries:
+\begin{equation}
+ \boxed{T'_{i_1,\dots,i_n} = P_{k_1i_1}P_{k_2 i_2}\dots P_{k_n i_n} T_{k_1,\dots,k_n}}
+\end{equation}
+when one goes from orthonormal base $(e)$ to orthonormal base $(e')$, with the
+transformation matrix defined by $P_{ij} = e'_i.e_j$.\\
+\vspace{3mm}
+
+{\bf{Exercise.}} The Kronecker symbol can be considered as a tensor of order 2. Show that it 
+ has the same coefficients in all orthonormal systems of coordinates (one says $\delta$ is an {\emph{isotropic tensor}}).\\
+
+ Let us apply the transformation rule of a  tensor of order 2, with the above notation for
+the transformation matrix:
+\begin{equation}
+ (\delta')_{ij} = P_{ki}P_{lj} \delta_{kl} = P_{ki} P_{kj} = (P^T)_{ik} P_{kj} = (P^TP)_{ij} = \delta_{ij}.
+\end{equation}
+One can also note that the Kronecker symbol is the matrix of the identity transformation,
+ hence its matrix is $I_3$ in any base.
+
+
+ %Let us generalize by induction.\\
+
+
+
+%\section{Examples: rotations}
+
+
+
+
+%{\bf{Exercise.}} Show that the identity tensor $I$ in any dimension  is invariant under any change of orthonormal basis.
+%\begin{equation}
+%I_{rs} = \delta_{rs}, \;\;\;  1\leq r, s \leq N.
+%\end{equation}
+
+
+
+
+
+%\section{Tensors for elasticity theory}
+
+
+
+
+%\section{Mathematical techniques (II): more tensors}
+
+
+
+
+
+
+
+\end{document}
